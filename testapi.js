@@ -1,4 +1,4 @@
-const axios = require('axios').default;
+const axios = require("axios").default;
 
 // axios
 //   .post('http://localhost:3000/controller', {
@@ -24,17 +24,18 @@ const axios = require('axios').default;
 //   });
 
 axios
-  .get('http://localhost:3000/controller/5', {
+  .get("http://localhost:3000/controller", {
     headers: {
       Authorization:
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRqIiwiaWF0IjoxNjYzMjM4NjM1LCJleHAiOjE2NjMzMjUwMzV9.B3SEMjyQiT9IUNQdrwV5VZQ_YqIFfOoecfith8yRHs4',
-    },
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRqIiwiaWF0IjoxNjY1NzU0MjI1LCJleHAiOjE2NjU4NDA2MjV9.o170BLNGfpsSpTo0QF0UEHe3pnO313ABSZ43o2-koaw"
+    }
   })
-  .then(function (response) {
-    console.log(response['data']);
+  .then((response) => {
+    console.log("hello");
+    console.log(response.data);
   })
-  .catch(function (error) {
-    console.log('failed');
+  .catch((error) => {
+    console.log("failed", error);
   });
 
 // const sqlite3 = require('sqlite3').verbose();

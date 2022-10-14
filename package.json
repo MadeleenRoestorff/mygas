@@ -1,20 +1,29 @@
 {
-  "name": "mygas",
-  "version": "1.0.0",
-  "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "axios": "^0.27.2",
-    "dotenv": "^16.0.2",
-    "ejs": "^3.1.8",
-    "express": "^4.18.1",
-    "express-session": "^1.17.3",
-    "jsonwebtoken": "^8.5.1",
-    "sqlite3": "^5.0.11"
-  },
-  "description": ""
+    "name": "mygas",
+    "version": "1.0.0",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "axios": "^0.27.2",
+        "dotenv": "^16.0.2",
+        "ejs": "^3.1.8",
+        "express": "^4.18.1",
+        "express-session": "^1.17.3",
+        "jsonwebtoken": "^8.5.1",
+        "sqlite3": "^5.0.11"
+    },
+    "description": "",
+    "devDependencies": {
+        "eslint": "^8.25.0",
+        "eslint-config-prettier": "^8.5.0",
+        "eslint-plugin-prettier": "^4.2.1",
+        "prettier": "2.7.1"
+    },
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix",
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
 }
