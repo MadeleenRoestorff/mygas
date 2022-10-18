@@ -248,6 +248,65 @@
             "error",
             "always"
         ],
-        "arrow-spacing": "error"
+        "arrow-spacing": "error",
+        "comma-spacing": [
+            "error",
+            {
+                "before": false,
+                "after": true
+            }
+        ],
+        "comma-style": [
+            "error",
+            "last"
+        ],
+        "computed-property-spacing": [
+            "error",
+            "never"
+        ],
+        "eol-last": [
+            "error",
+            "always"
+        ],
+        "func-call-spacing": [
+            "error",
+            "never"
+        ],
+        "generator-star-spacing": [
+            "error",
+            {
+                "before": true,
+                "after": false
+            }
+        ],
+        "implicit-arrow-linebreak": [
+            "error",
+            "beside"
+        ],
+        "key-spacing": [
+            "error",
+            {
+                "beforeColon": false
+            }
+        ],
+        "keyword-spacing": [
+            "error",
+            {
+                "before": true
+            }
+        ],
+        "line-comment-position": [
+            "error",
+            {
+                "position": "above"
+            }
+        ],
+        "lines-around-comment": [
+            "error",
+            {
+                "beforeLineComment": true,
+                "allowBlockStart": true
+            }
+        ]
     }
 }

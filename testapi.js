@@ -27,11 +27,10 @@ axios
   .get("http://localhost:3000/controller", {
     headers: {
       Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRqIiwiaWF0IjoxNjY1NzU0MjI1LCJleHAiOjE2NjU4NDA2MjV9.o170BLNGfpsSpTo0QF0UEHe3pnO313ABSZ43o2-koaw"
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRqIiwiaWF0IjoxNjY2MTAwOTk5LCJleHAiOjE2NjYxODczOTl9.1QsGwcuTVmudso0Ff3OksrwiEgyqX7VFIdrm9jTNRa8"
     }
   })
   .then((response) => {
-    console.log("hello");
     console.log(response.data);
   })
   .catch((error) => {

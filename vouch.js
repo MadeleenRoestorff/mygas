@@ -15,6 +15,7 @@ const digest = "sha256";
 const iterations = 99999;
 const keyLength = 64;
 const bufferSalt = crypto.randomBytes(keyLength).toString("base64");
+
 // get config vars
 dotenv.config();
 
@@ -29,6 +30,7 @@ exports.insertSaltedHashedUserInDB = (password, username) => {
 
   crypto.pbkdf2(password, bufferSalt, iterations, keyLength, digest, (error, hash) => {
     if (error) throw error;
+
     // store the salt & hash in the "db"
     const db = new sqlite3.Database("gas.db");
     db.run(
@@ -42,6 +44,7 @@ exports.insertSaltedHashedUserInDB = (password, username) => {
 
 exports.authenticateUser = async (name, password, errToken) => {
   console.log("authenticating %s:%s", name, password);
+
   // query the db for the given username
   const getUserSaltHash = new Promise((resolve, reject) => {
     const db = new sqlite3.Database("gas.db");
@@ -59,6 +62,7 @@ exports.authenticateUser = async (name, password, errToken) => {
 
   crypto.pbkdf2(password, saltedhash[0], iterations, keyLength, digest, (error, hash) => {
     if (error) return errToken(error);
+
     //   match pw hash with db hash
     if (hash.toString("base64") === saltedhash[1]) {
       // generate token

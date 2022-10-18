@@ -17,9 +17,11 @@ const gasColumns = [
 
 db.serialize(() => {
   db.run("DROP TABLE users");
+
   // TODO commentout
   db.run(`CREATE TABLE IF NOT EXISTS users (${usersColumns.join()})`);
   db.run("DROP TABLE gas");
+
   // TODO commentout
   db.run(`CREATE TABLE IF NOT EXISTS gas (${gasColumns.join()})`);
 });
