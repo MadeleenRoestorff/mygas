@@ -145,6 +145,7 @@
                 "allow": [
                     "warn",
                     "error",
+                    // TODO remove log after testing
                     "log"
                 ]
             }

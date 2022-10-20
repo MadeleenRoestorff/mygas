@@ -11,7 +11,9 @@ module.exports = express();
 const app = module.exports;
 
 const login = require("./login");
-const gasController = require("./controller");
+
+// const gasController = require("./controller");
+const gasEndpoint = require("./endpoints");
 
 const PORT = 3000;
 
@@ -23,7 +25,7 @@ app.set("views", path.join(__dirname, "views"));
 // middleware
 
 app.use("/login", login);
-app.use("/controller", vouch.restrict, gasController);
+app.use("/controller", vouch.restrict, gasEndpoint);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");

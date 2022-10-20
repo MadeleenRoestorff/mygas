@@ -27,7 +27,7 @@ axios
   .get("http://localhost:3000/controller", {
     headers: {
       Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRqIiwiaWF0IjoxNjY2MTAwOTk5LCJleHAiOjE2NjYxODczOTl9.1QsGwcuTVmudso0Ff3OksrwiEgyqX7VFIdrm9jTNRa8"
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRqIiwiaWF0IjoxNjY2MjY2NzQ2LCJleHAiOjE2NjYzNTMxNDZ9.sA7vmeUXF6dapb2o4LJI14vdCpPL2M6ozIxdx8vI3vw"
     }
   })
   .then((response) => {

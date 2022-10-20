@@ -7,7 +7,7 @@ const bodyParser = require("body-parser");
 // Middleware
 router.use(bodyParser.json());
 
-const getGas = (gasId) => {
+const getGasRow = (gasId) => {
   return new Promise((resolve, reject) => {
     const gasEntry = {};
     try {
@@ -30,7 +30,12 @@ const getGas = (gasId) => {
     }
   });
 };
-const getGasList = () => {
+
+/**
+ * Sets the internal fields paramater
+ * @param fields Gas log details.
+ */
+const getGasListOfRows = () => {
   return new Promise((resolve, reject) => {
     const getGassArray = [];
     try {
@@ -108,7 +113,7 @@ const updateGas = (gas) => {
 };
 
 router.get("/:id(\\d+)", (req, res) => {
-  getGas(req.params.id).then((gasData) => {
+  getGasRow(req.params.id).then((gasData) => {
     res.json(gasData);
     console.log(Object.keys(res.req));
   });
@@ -116,7 +121,7 @@ router.get("/:id(\\d+)", (req, res) => {
 router
   .route("/")
   .get((req, res) => {
-    getGasList().then((gasData) => {
+    getGasListOfRows().then((gasData) => {
       res.json(gasData);
     });
   })
