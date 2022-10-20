@@ -6,8 +6,6 @@ class Gas {
 
   constructor(fields = {}) {
     this.#fields = fields || {};
-    console.log("constructor fields", fields);
-    console.log("constructor this.fields", this.#fields);
   }
 
   set fields(fields) {
@@ -15,7 +13,6 @@ class Gas {
   }
 
   get fields() {
-    console.log("get fields this.fields", this.#fields);
     return this.#fields;
   }
 
@@ -37,10 +34,7 @@ class Gas {
 
   static async getList() {
     const fieldList = await Gas.#getListOfGasRows();
-    console.log("getList fieldList", fieldList);
-    const testGases = fieldList.map((fields) => new Gas(fields));
-    console.log("getList testGases", testGases);
-    return testGases;
+    return fieldList.map((fields) => new Gas(fields));
   }
 
   addNewGasRow() {
@@ -136,7 +130,6 @@ class Gas {
             }
           },
           (_err, _count) => {
-            console.log("getListOfGasRows, getGassArray", getGassArray);
             resolve(getGassArray);
           }
         );

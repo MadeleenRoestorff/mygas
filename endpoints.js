@@ -8,9 +8,8 @@ const Gas = require("./gas-module");
 router.use(bodyParser.json());
 
 router.get("/:id(\\d+)", (req, res) => {
-  Gas.getInstance(req.params.id).then((gasData) => {
-    res.json(gasData);
-    console.log("gasData", gasData);
+  Gas.getInstance(req.params.id).then((gasInstance) => {
+    res.json(gasInstance.fields);
     console.log(Object.keys(res.req));
   });
 });
@@ -18,11 +17,6 @@ router.route("/").get((req, res) => {
   Gas.getList().then((gasData) => {
     const fieldsList = gasData.map((gas) => gas.fields);
     res.json(fieldsList);
-    console.log("gasData", gasData);
-    console.log(
-      "gasData fields",
-      gasData.map((gas) => gas.fields)
-    );
   });
 });
 

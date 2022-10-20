@@ -24,7 +24,7 @@ const axios = require("axios").default;
 //   });
 
 axios
-  .get("http://localhost:3000/controller", {
+  .get("http://localhost:3000/controller/1", {
     headers: {
       Authorization:
         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRqIiwiaWF0IjoxNjY2MjY2NzQ2LCJleHAiOjE2NjYzNTMxNDZ9.sA7vmeUXF6dapb2o4LJI14vdCpPL2M6ozIxdx8vI3vw"
