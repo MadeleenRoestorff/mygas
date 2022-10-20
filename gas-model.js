@@ -16,12 +16,14 @@ class Gas {
     return this.#fields;
   }
 
-  save() {
-    if (this.fields.id) {
-      this.updateGasRow();
-    } else {
-      this.addNewGasRow();
+  async save() {
+    if (this.fields.GasLogID) {
+      console.log("save fields", this.fields);
+      await this.updateGasRow();
+      console.log("save fields", this.fields);
     }
+
+    // await this.addNewGasRow();
   }
 
   static async getInstance(id) {
@@ -62,6 +64,7 @@ class Gas {
   }
 
   updateGasRow() {
+    console.log("updateGasRow fields", this.fields);
     return new Promise((resolve, reject) => {
       try {
         const db = new sqlite3.Database("gas.db");
@@ -72,6 +75,7 @@ class Gas {
             try {
               // eslint-disable-next-line no-invalid-this
               resolve(this.changes);
+              console.log("saved");
             } catch (error) {
               console.log("Update Failed");
               reject(error);
