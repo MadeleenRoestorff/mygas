@@ -2,7 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const bodyParser = require("body-parser");
-const Gas = require("./gas-model");
+const Gas = require("./models/gas-model");
 
 // Middleware
 router.use(bodyParser.json());

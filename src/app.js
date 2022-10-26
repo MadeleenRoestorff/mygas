@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 "use strict";
 
 /**
@@ -6,11 +7,11 @@
 
 const express = require("express");
 const path = require("path");
-const vouch = require("./vouch");
+const auth = require("./auth/auth");
 module.exports = express();
 const app = module.exports;
 
-const login = require("./login");
+const login = require("./auth/login");
 
 // const gasController = require("./controller");
 const gasEndpoint = require("./endpoints");
@@ -25,7 +26,7 @@ app.set("views", path.join(__dirname, "views"));
 // middleware
 
 app.use("/login", login);
-app.use("/controller", vouch.restrict, gasEndpoint);
+app.use("/controller", auth.restrict, gasEndpoint);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");

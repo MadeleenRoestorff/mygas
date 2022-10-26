@@ -2,7 +2,7 @@
 
 const express = require("express");
 const router = express.Router();
-const vouch = require("./vouch");
+const auth = require("./auth");
 
 // middleware
 router.use(express.urlencoded({ extended: false }));
@@ -12,7 +12,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", async (req, res, next) => {
-  await vouch.authenticateUser(req.body.username, req.body.password, (error, token) => {
+  await auth.authenticateUser(req.body.username, req.body.password, (error, token) => {
     if (error) next(error);
     if (token) {
       console.log("token", token);
