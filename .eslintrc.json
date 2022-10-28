@@ -220,6 +220,7 @@
         "no-useless-return": "error",
         "no-var": "error",
         "no-void": "error",
+        "no-warning-comments": "off",
         "object-shorthand": "error",
         "one-var-declaration-per-line": [
             "error",
