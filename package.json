@@ -32,7 +32,7 @@
     "lint:fix": "eslint --fix",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
     "jira-prepare-commit-msg": {
-        "messagePattern": "[$J]: $M",
+        "messagePattern": "$J: $M",
         "jiraTicketPattern": "([A-Z]+-\\d+)",
         "commentChar": "#",
         "isConventionalCommit": false,
