@@ -25,7 +25,10 @@
         "module": "writable",
         "exports": "writable",
         "process": "writable",
-        "__dirname": "writable"
+        "__dirname": "writable",
+        "describe": "writable",
+        "it": "writable",
+        "expect": "writable"
     },
     "rules": {
         "quotes": [
