@@ -28,7 +28,9 @@
         "__dirname": "writable",
         "describe": "writable",
         "it": "writable",
-        "expect": "writable"
+        "expect": "writable",
+        "beforeAll": "writable",
+        "afterAll": "writable"
     },
     "rules": {
         "quotes": [
@@ -312,13 +314,6 @@
             "error",
             {
                 "position": "above"
-            }
-        ],
-        "lines-around-comment": [
-            "error",
-            {
-                "beforeLineComment": true,
-                "allowBlockStart": true
             }
         ]
     }
