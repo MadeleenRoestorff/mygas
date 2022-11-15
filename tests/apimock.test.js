@@ -11,16 +11,16 @@ afterEach(async () => {
 
 describe("Tests for gas model", () => {
   it("addNewGasRow", async () => {
-    const allGasRowsIntial = await Gas.getGasList();
-    expect(allGasRowsIntial.length).toBe(0);
+    const allGasRowsInitial = await Gas.getGasList();
+    expect(allGasRowsInitial.length).toBe(0);
     const UNITS = 123;
     const testGas = new Gas({
       units: UNITS
     });
     await testGas.save();
-    const allGasRows = await Gas.getGasList();
-    expect(allGasRows.length).toBe(1);
-    const firstRow = allGasRows[0];
+    const allGasRowsEnd = await Gas.getGasList();
+    expect(allGasRowsEnd.length).toBe(1);
+    const firstRow = allGasRowsEnd[0];
     expect(firstRow.fields.units).toBe(UNITS);
   });
 });

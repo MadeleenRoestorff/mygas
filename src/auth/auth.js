@@ -32,7 +32,7 @@ exports.insertSaltedHashedUserInDB = (password, username) => {
     if (error) throw error;
 
     // store the salt & hash in the "db"
-    const db = new sqlite3.Database("gas.db");
+    const db = new sqlite3.Database(process.env.DATABASE);
     db.run(
       `INSERT INTO users (username, salt, hash) VALUES ('${username}', '${bufferSalt}', '${hash.toString(
         "base64"
@@ -47,7 +47,7 @@ exports.authenticateUser = async (name, password, errToken) => {
 
   // query the db for the given username
   const getUserSaltHash = new Promise((resolve, reject) => {
-    const db = new sqlite3.Database("gas.db");
+    const db = new sqlite3.Database(process.env.DATABASE);
     db.get(`SELECT * FROM users WHERE username = '${name}'`, (error, row) => {
       if (error) {
         reject(errToken(error));
