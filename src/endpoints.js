@@ -22,6 +22,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
+  // analyse for GasLogID ignore or throw error
   const addNewGas = new Gas(req.body);
   addNewGas.save().then(() => {
     res.json(addNewGas.fields);

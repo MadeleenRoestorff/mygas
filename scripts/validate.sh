@@ -2,19 +2,19 @@
 
 if npx eslint --max-warnings 0 "src/"
 then
-    echo "eslint exit code: $?"
+    echo "ESlint exit code: $?"
     echo "ES Lint Successful"
 else
     echo "eslint exit code: $?"
-    echo "failed ESlint" >&2
+    echo "Failed ESlint" >&2
     exit 1
 fi
 
 if npx prettier --check "src/**/*.js"
 then
-    echo "prettier completed"
+    echo "Prettier Completed"
 else
-    echo "prettier error" >&2
+    echo "Prettier Error" >&2
     exit 1
 fi
 
