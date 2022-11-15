@@ -1,5 +1,9 @@
 "use strict";
 const sqlite3 = require("sqlite3").verbose();
+const dotenv = require("dotenv");
+
+// get config vars
+dotenv.config();
 
 class Gas {
   #fields = {};
@@ -27,7 +31,7 @@ class Gas {
   addNewGasRow() {
     return new Promise((resolve, reject) => {
       try {
-        const db = new sqlite3.Database("gas.db");
+        const db = new sqlite3.Database(process.env.DATABASE);
         this.fields.createon = new Date().toISOString();
         this.fields.updateon = this.fields.createon;
         db.run(
@@ -52,7 +56,7 @@ class Gas {
   updateGasRow() {
     return new Promise((resolve, reject) => {
       try {
-        const db = new sqlite3.Database("gas.db");
+        const db = new sqlite3.Database(process.env.DATABASE);
         this.fields.updateon = new Date().toISOString();
         console.log("this.fields.updateon", this.fields.updateon);
         console.log("this.fields.createon", this.fields.createon);
@@ -83,7 +87,7 @@ class Gas {
     return new Promise((resolve, reject) => {
       const gasEntry = {};
       try {
-        const db = new sqlite3.Database("gas.db");
+        const db = new sqlite3.Database(process.env.DATABASE);
         db.get(`SELECT * FROM gas WHERE GasLogID = '${gasId}'`, (error, row) => {
           if (error) {
             reject(error);
@@ -107,7 +111,7 @@ class Gas {
     return new Promise((resolve, reject) => {
       const getGassArray = [];
       try {
-        const db = new sqlite3.Database("gas.db");
+        const db = new sqlite3.Database(process.env.DATABASE);
         db.each(
           "SELECT * FROM gas",
           (error, row) => {

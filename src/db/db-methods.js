@@ -1,13 +1,17 @@
 const sqlite3 = require("sqlite3").verbose();
+const dotenv = require("dotenv");
 
-const usersColumns = [
+// get config vars
+dotenv.config();
+
+const usersDbColumns = [
   "PersonID INTEGER PRIMARY KEY",
   "username varchar(255) UNIQUE",
   "salt varchar(255)",
   "hash varchar(255)"
 ];
 
-const gasColumns = [
+const gasDbColumns = [
   "GasLogID INTEGER PRIMARY KEY",
   "units NUMERIC",
   "createon DATETIME",
@@ -15,13 +19,13 @@ const gasColumns = [
 ];
 
 const sqlQueriesCreate = [
-  `CREATE TABLE IF NOT EXISTS users (${usersColumns.join()})`,
-  `CREATE TABLE IF NOT EXISTS gas (${gasColumns.join()})`
+  `CREATE TABLE IF NOT EXISTS users (${usersDbColumns.join()})`,
+  `CREATE TABLE IF NOT EXISTS gas (${gasDbColumns.join()})`
 ];
 
-const setUpFunction = (sqlQuery, dbName) => {
+const execDbQuery = (sqlQuery) => {
   return new Promise((resolve, reject) => {
-    const db = new sqlite3.Database(dbName);
+    const db = new sqlite3.Database(process.env.DATABASE);
     db.all(sqlQuery, [], (error, row) => {
       if (error) {
         reject(error);
@@ -33,14 +37,14 @@ const setUpFunction = (sqlQuery, dbName) => {
   });
 };
 
-exports.dbSetup = async (dbName = "gas.db") => {
-  const setupUsers = await setUpFunction(sqlQueriesCreate[0], dbName);
-  const setupGas = await setUpFunction(sqlQueriesCreate[1], dbName);
+exports.dbSetup = async () => {
+  const setupUsers = await execDbQuery(sqlQueriesCreate[0]);
+  const setupGas = await execDbQuery(sqlQueriesCreate[1]);
   return [setupUsers, setupGas];
 };
 
-exports.dbClear = async (dbName = "gas.db") => {
-  const setupUsers = await setUpFunction("DROP TABLE users", dbName);
-  const setupGas = await setUpFunction("DROP TABLE gas", dbName);
+exports.dbClear = async () => {
+  const setupUsers = await execDbQuery("DROP TABLE users");
+  const setupGas = await execDbQuery("DROP TABLE gas");
   return [setupUsers, setupGas];
 };

@@ -1,28 +1,26 @@
 const dbMethods = require("../src/db/db-methods");
-// const Gas = require("../src/models/gas-model");]
+const Gas = require("../src/models/gas-model");
 
-beforeAll(async () => {
-  const dbsCreated = await dbMethods.dbSetup("test.db");
-  console.log(dbsCreated);
+beforeEach(async () => {
+  await dbMethods.dbSetup();
 });
 
-afterAll(async () => {
-  const dbsCleared = await dbMethods.dbClear("test.db");
-  console.log(dbsCleared);
+afterEach(async () => {
+  await dbMethods.dbClear();
 });
 
 describe("Tests for gas model", () => {
-  it("addNewGasRow", () => {
-    const nonsense = "hello";
-    expect(nonsense).toBe("hello");
-    // const testGas = new Gas({
-    //   units: 123
-    // });
-    // testGas.save();
-    // pseudocode
-    // allRows = runDb("select * from gas;");
-    // expect(allRows.length).toBe(1);
-    // const firstRow = allRows[0];
-    // expect(firstRow.units).toBe(123);
+  it("addNewGasRow", async () => {
+    const allGasRowsIntial = await Gas.getGasList();
+    expect(allGasRowsIntial.length).toBe(0);
+    const UNITS = 123;
+    const testGas = new Gas({
+      units: UNITS
+    });
+    await testGas.save();
+    const allGasRows = await Gas.getGasList();
+    expect(allGasRows.length).toBe(1);
+    const firstRow = allGasRows[0];
+    expect(firstRow.fields.units).toBe(UNITS);
   });
 });
