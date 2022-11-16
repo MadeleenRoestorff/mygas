@@ -1,15 +1,15 @@
 const dbMethods = require("../src/db/db-methods");
 const Gas = require("../src/models/gas-model");
 
-beforeEach(async () => {
-  await dbMethods.dbSetup();
-});
-
-afterEach(async () => {
-  await dbMethods.dbClear();
-});
-
 describe("Tests for gas model", () => {
+  beforeEach(async () => {
+    await dbMethods.dbSetup();
+  });
+
+  afterEach(async () => {
+    await dbMethods.dbClear();
+  });
+
   it("addNewGasRow", async () => {
     const allGasRowsInitial = await Gas.getGasList();
     expect(allGasRowsInitial.length).toBe(0);
