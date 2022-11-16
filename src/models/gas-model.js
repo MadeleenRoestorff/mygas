@@ -1,3 +1,4 @@
+/* eslint-disable no-invalid-this */
 "use strict";
 const sqlite3 = require("sqlite3").verbose();
 const dotenv = require("dotenv");
@@ -20,68 +21,90 @@ class Gas {
     return this.#fields;
   }
 
-  async save() {
-    if (this.fields.GasLogID) {
-      await this.updateGasRow();
-    } else {
-      await this.addNewGasRow();
-    }
+  save() {
+    return new Promise((resolve, reject) => {
+      try {
+        if (this.fields.GasLogID) {
+          const query = `UPDATE gas SET units = ${this.fields.units}, updateon = '${this.fields.updateon}'  WHERE GasLogID = ${this.fields.GasLogID}`;
+          resolve(this.#insertIntoDB(query));
+        } else {
+          this.fields.createon = new Date().toISOString();
+          const query = `INSERT INTO gas (units, createon, updateon ) VALUES ('${this.fields.units}', '${this.fields.createon}','${this.fields.updateon}')`;
+          resolve(this.#insertIntoDB(query));
+        }
+      } catch (error) {
+        reject(error);
+      }
+    });
   }
 
-  addNewGasRow() {
+  #insertIntoDB(query) {
     return new Promise((resolve, reject) => {
       try {
         const db = new sqlite3.Database(process.env.DATABASE);
-        this.fields.createon = new Date().toISOString();
         this.fields.updateon = this.fields.createon;
-        db.run(
-          `INSERT INTO gas (units, createon, updateon ) VALUES ('${this.fields.units}', '${this.fields.createon}','${this.fields.updateon}')`,
-          function () {
-            try {
-              // eslint-disable-next-line no-invalid-this
-              resolve(this.lastID);
-            } catch (error) {
-              reject(error);
-            }
+        db.run(query, function () {
+          try {
+            this.lastID && resolve(this.lastID);
+            this.changes && resolve(this.changes);
+          } catch (error) {
+            reject(error);
           }
-        );
+        });
         db.close();
       } catch (error) {
-        console.log("Error::", error);
         reject(error);
       }
     });
   }
 
-  updateGasRow() {
-    return new Promise((resolve, reject) => {
-      try {
-        const db = new sqlite3.Database(process.env.DATABASE);
-        this.fields.updateon = new Date().toISOString();
-        console.log("this.fields.updateon", this.fields.updateon);
-        console.log("this.fields.createon", this.fields.createon);
-        db.run(
-          `UPDATE gas SET units = ${this.fields.units}, updateon = '${this.fields.updateon}'  WHERE GasLogID = ${this.fields.GasLogID}`,
+  //   addNewGasRow() {
+  //     return new Promise((resolve, reject) => {
+  //       try {
+  //         const db = new sqlite3.Database(process.env.DATABASE);
+  //         this.fields.createon = new Date().toISOString();
+  //         this.fields.updateon = this.fields.createon;
+  //         db.run(
+  //           `INSERT INTO gas (units, createon, updateon ) VALUES ('${this.fields.units}', '${this.fields.createon}','${this.fields.updateon}')`,
+  //           function () {
+  //             try {
+  //               resolve(this.lastID);
+  //             } catch (error) {
+  //               reject(error);
+  //             }
+  //           }
+  //         );
+  //         db.close();
+  //       } catch (error) {
+  //         console.log("Error::", error);
+  //         reject(error);
+  //       }
+  //     });
+  //   }
 
-          function () {
-            try {
-              // eslint-disable-next-line no-invalid-this
-              console.log(this.changes);
-              // eslint-disable-next-line no-invalid-this
-              resolve(this.changes);
-            } catch (error) {
-              console.log("Update Failed", error);
-              reject(error);
-            }
-          }
-        );
-        db.close();
-      } catch (error) {
-        console.log("Error::", error);
-        reject(error);
-      }
-    });
-  }
+  //   updateGasRow() {
+  //     return new Promise((resolve, reject) => {
+  //       try {
+  //         const db = new sqlite3.Database(process.env.DATABASE);
+  //         this.fields.updateon = new Date().toISOString();
+  //         db.run(
+  //           `UPDATE gas SET units = ${this.fields.units}, updateon = '${this.fields.updateon}'  WHERE GasLogID = ${this.fields.GasLogID}`,
+  //           function () {
+  //             try {
+  //               resolve(this.changes);
+  //             } catch (error) {
+  //               console.log("Update Failed", error);
+  //               reject(error);
+  //             }
+  //           }
+  //         );
+  //         db.close();
+  //       } catch (error) {
+  //         console.log("Error::", error);
+  //         reject(error);
+  //       }
+  //     });
+  //   }
 
   static getGasInstance(gasId) {
     return new Promise((resolve, reject) => {
