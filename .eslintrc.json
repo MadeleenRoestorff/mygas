@@ -216,7 +216,13 @@
         "no-undef-init": "error",
         "no-undefined": "error",
         "no-underscore-dangle": "error",
-        "no-unused-expressions": "error",
+        "no-unused-expressions": [
+            "error",
+            {
+                "allowShortCircuit": true,
+                "allowTernary": true
+            }
+        ],
         "no-unused-vars": [
             "error",
             {

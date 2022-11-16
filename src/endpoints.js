@@ -24,7 +24,8 @@ router.get("/", (req, res) => {
 router.post("/", (req, res) => {
   // analyse for GasLogID ignore or throw error
   const addNewGas = new Gas(req.body);
-  addNewGas.save().then(() => {
+  addNewGas.save().then((response) => {
+    console.log(response);
     res.json(addNewGas.fields);
   });
 });
@@ -33,14 +34,8 @@ router.put("/:id(\\d+)", (req, res) => {
   const reqBody = { ...req.body };
   reqBody.GasLogID = Number(req.params.id);
   const updateGas = new Gas(reqBody);
-  console.log("put updateGas", updateGas.fields);
-
-  //   updateGas.updateGasRow().then((gas) => {
-  //     console.log("put updateGas.updateGasRow", gas);
-  //     res.json(gas.fields);
-  //   });
-
-  updateGas.save().then(() => {
+  updateGas.save().then((response) => {
+    console.log(response);
     res.json(updateGas.fields);
   });
 });
