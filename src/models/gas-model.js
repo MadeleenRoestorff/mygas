@@ -45,8 +45,13 @@ class Gas {
         this.fields.updateon = this.fields.createon;
         db.run(query, function () {
           try {
-            this.lastID && resolve(this.lastID);
-            this.changes && resolve(this.changes);
+            if (this.lastID) {
+              // Contain the value of the last inserted row ID
+              resolve(this.lastID);
+            } else {
+              // The number of rows affected by this query
+              resolve(this.changes);
+            }
           } catch (error) {
             reject(error);
           }

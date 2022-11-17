@@ -42,4 +42,22 @@ describe("Tests for gas model", () => {
     const gasInstance = await Gas.getGasInstance(newGasID);
     expect(gasInstance.fields.units).toBe(UNITS);
   });
+
+  it("Test save add new, update gas and get gas instance", async () => {
+    const UNITS = 123;
+    const testNewGas = new Gas({
+      units: UNITS
+    });
+    const newGasID = await testNewGas.save();
+    const gasInstanceInitial = await Gas.getGasInstance(newGasID);
+    expect(gasInstanceInitial.fields.units).toBe(UNITS);
+    const UNITSUPADATE = 321;
+    const testUpdateGas = new Gas({
+      GasLogID: newGasID,
+      units: UNITSUPADATE
+    });
+    await testUpdateGas.save();
+    const gasInstance = await Gas.getGasInstance(newGasID);
+    expect(gasInstance.fields.units).toBe(UNITSUPADATE);
+  });
 });
