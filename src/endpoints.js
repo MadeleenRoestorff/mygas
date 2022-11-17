@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const bodyParser = require("body-parser");
 const Gas = require("./models/gas-model");
+const statusCodes = require("http-status-codes").StatusCodes;
 
 // Middleware
 router.use(bodyParser.json());
@@ -23,11 +24,17 @@ router.get("/", (req, res) => {
 
 router.post("/", (req, res) => {
   // analyse for GasLogID ignore or throw error
-  const addNewGas = new Gas(req.body);
-  addNewGas.save().then((response) => {
-    console.log(response);
-    res.json(addNewGas.fields);
-  });
+  // analyse body reject empty body post
+  if (req.body && Object.keys(req.body).length !== 0) {
+    const addNewGas = new Gas(req.body);
+    addNewGas.save().then((response) => {
+      addNewGas.fields.GasLogID = response;
+      res.json(addNewGas.fields);
+    });
+  } else {
+    res.status(statusCodes.BAD_REQUEST);
+    throw new Error("BROKEN");
+  }
 });
 
 router.put("/:id(\\d+)", (req, res) => {

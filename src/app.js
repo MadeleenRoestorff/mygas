@@ -7,13 +7,11 @@
 
 const express = require("express");
 const path = require("path");
-const auth = require("./auth/auth");
+// const auth = require("./auth/auth");
 module.exports = express();
 const app = module.exports;
 
 const login = require("./auth/login");
-
-// const gasController = require("./controller");
 const gasEndpoint = require("./endpoints");
 
 const PORT = 3000;
@@ -26,7 +24,8 @@ app.set("views", path.join(__dirname, "views"));
 // middleware
 
 app.use("/login", login);
-app.use("/controller", auth.restrict, gasEndpoint);
+// app.use("/gas", auth.restrict, gasEndpoint);
+app.use("/gas", gasEndpoint);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
