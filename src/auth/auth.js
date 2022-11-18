@@ -28,17 +28,30 @@ exports.insertSaltedHashedUserInDB = (password, username) => {
    * @param {string} username: user username
    */
 
-  crypto.pbkdf2(password, bufferSalt, iterations, keyLength, digest, (error, hash) => {
-    if (error) throw error;
-
-    // store the salt & hash in the "db"
-    const db = new sqlite3.Database(process.env.DATABASE);
-    db.run(
-      `INSERT INTO users (username, salt, hash) VALUES ('${username}', '${bufferSalt}', '${hash.toString(
-        "base64"
-      )}')`
-    );
-    db.close();
+  return new Promise((resolve, reject) => {
+    crypto.pbkdf2(password, bufferSalt, iterations, keyLength, digest, (error, hash) => {
+      if (error) reject(error);
+      try {
+        const db = new sqlite3.Database(process.env.DATABASE);
+        db.all(
+          `INSERT INTO users (username, salt, hash) VALUES ('${username}', '${bufferSalt}', '${hash.toString(
+            "base64"
+          )}')`,
+          [],
+          (errordb, row) => {
+            if (errordb) {
+              reject(errordb);
+            } else {
+              resolve(row);
+            }
+          }
+        );
+        db.close();
+      } catch (errorTry) {
+        console.log("Could Not Create User");
+        reject(errorTry);
+      }
+    });
   });
 };
 
@@ -48,11 +61,16 @@ exports.authenticateUser = async (name, password, errToken) => {
   // query the db for the given username
   const getUserSaltHash = new Promise((resolve, reject) => {
     const db = new sqlite3.Database(process.env.DATABASE);
-    db.get(`SELECT * FROM users WHERE username = '${name}'`, (error, row) => {
-      if (error) {
-        reject(errToken(error));
+    db.get(`SELECT * FROM users WHERE username = '${name}'`, (errordb, row) => {
+      if (errordb) {
+        reject(errToken(errordb));
       } else {
-        resolve([row.salt, row.hash, row.username]);
+        try {
+          resolve([row.salt, row.hash, row.username]);
+        } catch (error) {
+          console.log("Returned DB Row Empty");
+          reject(errToken(error));
+        }
       }
     });
     db.close();

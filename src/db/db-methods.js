@@ -44,7 +44,7 @@ exports.dbSetup = async () => {
 };
 
 exports.dbClear = async () => {
-  const setupUsers = await execDbQuery("DROP TABLE users");
-  const setupGas = await execDbQuery("DROP TABLE gas");
+  const setupUsers = await execDbQuery("DROP TABLE IF EXISTS users");
+  const setupGas = await execDbQuery("DROP TABLE IF EXISTS gas");
   return [setupUsers, setupGas];
 };
