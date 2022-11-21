@@ -14,10 +14,20 @@ describe("Tests for gas model", () => {
     await dbMethods.dbClear();
   });
 
+  it("Test user Add Wrong Password", async () => {
+    await auth.authenticateUser("ghibli", "studi", (error, token) => {
+      expect(token).toBe(null);
+      expect(Boolean(error)).toBe(true);
+    });
+  });
+  it("Test user Add Wrong Username", async () => {
+    await auth.authenticateUser("ghibl", "studio", (error, token) => {
+      expect(token).toBe(null);
+      expect(Boolean(error)).toBe(true);
+    });
+  });
   it("Test user Add", async () => {
     await auth.authenticateUser("ghibli", "studio", (error, token) => {
-      console.log("token", token);
-      console.log("error", error);
       expect(Boolean(token)).toBe(true);
       expect(error).toBe(null);
     });

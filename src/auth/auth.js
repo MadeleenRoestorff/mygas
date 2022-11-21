@@ -63,23 +63,26 @@ exports.authenticateUser = async (name, password, errToken) => {
     const db = new sqlite3.Database(process.env.DATABASE);
     db.get(`SELECT * FROM users WHERE username = '${name}'`, (errordb, row) => {
       if (errordb) {
-        reject(errToken(errordb));
+        reject(errordb);
       } else {
         try {
           resolve([row.salt, row.hash, row.username]);
-        } catch (error) {
-          console.log("Returned DB Row Empty");
-          reject(errToken(error));
+        } catch (errorCaught) {
+          reject(errorCaught);
         }
       }
     });
     db.close();
   });
+  let saltedhash = null;
+  try {
+    saltedhash = await getUserSaltHash;
+  } catch (error) {
+    return errToken(`Cannot find Username: ${name}`, null);
+  }
 
-  const saltedhash = await getUserSaltHash;
-
-  crypto.pbkdf2(password, saltedhash[0], iterations, keyLength, digest, (error, hash) => {
-    if (error) return errToken(error);
+  return crypto.pbkdf2(password, saltedhash[0], iterations, keyLength, digest, (error, hash) => {
+    if (error) return errToken(error, null);
 
     //   match pw hash with db hash
     if (hash.toString("base64") === saltedhash[1]) {
@@ -90,7 +93,7 @@ exports.authenticateUser = async (name, password, errToken) => {
       console.log(token);
       return errToken(null, token);
     }
-    return errToken(null, null);
+    return errToken("Wrong Password", null);
   });
 };
 
