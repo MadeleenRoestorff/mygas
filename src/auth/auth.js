@@ -74,27 +74,27 @@ exports.authenticateUser = async (name, password, errToken) => {
     });
     db.close();
   });
-  let saltedhash = null;
-  try {
-    saltedhash = await getUserSaltHash;
-  } catch (error) {
-    return errToken(`Cannot find Username: ${name}`, null);
-  }
 
-  return crypto.pbkdf2(password, saltedhash[0], iterations, keyLength, digest, (error, hash) => {
-    if (error) return errToken(error, null);
+  await getUserSaltHash
+    .then((saltedhash) => {
+      crypto.pbkdf2(password, saltedhash[0], iterations, keyLength, digest, (error, hash) => {
+        if (error) return errToken(error, null);
 
-    //   match pw hash with db hash
-    if (hash.toString("base64") === saltedhash[1]) {
-      // generate token
-      const token = jwt.sign({ username: saltedhash[2] }, process.env.GEHUIMPIE, {
-        expiresIn: "24h"
+        //   match pw hash with db hash
+        if (hash.toString("base64") === saltedhash[1]) {
+          // generate token
+          const token = jwt.sign({ username: saltedhash[2] }, process.env.GEHUIMPIE, {
+            expiresIn: "24h"
+          });
+          console.log(token);
+          return errToken(null, token);
+        }
+        return errToken("Wrong Password", null);
       });
-      console.log(token);
-      return errToken(null, token);
-    }
-    return errToken("Wrong Password", null);
-  });
+    })
+    .catch(() => {
+      return errToken(`Cannot find Username: ${name}`, null);
+    });
 };
 
 exports.restrict = (req, res, next) => {
