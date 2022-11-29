@@ -63,54 +63,6 @@ class Gas {
     });
   }
 
-  //   addNewGasRow() {
-  //     return new Promise((resolve, reject) => {
-  //       try {
-  //         const db = new sqlite3.Database(process.env.DATABASE);
-  //         this.fields.createon = new Date().toISOString();
-  //         this.fields.updateon = this.fields.createon;
-  //         db.run(
-  //           `INSERT INTO gas (units, createon, updateon ) VALUES ('${this.fields.units}', '${this.fields.createon}','${this.fields.updateon}')`,
-  //           function () {
-  //             try {
-  //               resolve(this.lastID);
-  //             } catch (error) {
-  //               reject(error);
-  //             }
-  //           }
-  //         );
-  //         db.close();
-  //       } catch (error) {
-  //         console.log("Error::", error);
-  //         reject(error);
-  //       }
-  //     });
-  //   }
-
-  //   updateGasRow() {
-  //     return new Promise((resolve, reject) => {
-  //       try {
-  //         const db = new sqlite3.Database(process.env.DATABASE);
-  //         this.fields.updateon = new Date().toISOString();
-  //         db.run(
-  //           `UPDATE gas SET units = ${this.fields.units}, updateon = '${this.fields.updateon}'  WHERE GasLogID = ${this.fields.GasLogID}`,
-  //           function () {
-  //             try {
-  //               resolve(this.changes);
-  //             } catch (error) {
-  //               console.log("Update Failed", error);
-  //               reject(error);
-  //             }
-  //           }
-  //         );
-  //         db.close();
-  //       } catch (error) {
-  //         console.log("Error::", error);
-  //         reject(error);
-  //       }
-  //     });
-  //   }
-
   static getGasInstance(gasId) {
     return new Promise((resolve, reject) => {
       const gasEntry = {};

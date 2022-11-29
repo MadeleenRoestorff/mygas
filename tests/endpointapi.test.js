@@ -5,37 +5,24 @@ const statusCodes = require("http-status-codes").StatusCodes;
 const auth = require("../src/auth/auth");
 
 describe("Tests for gas model", () => {
-  beforeEach(async () => {
+  let token = null;
+  beforeAll(async () => {
     await dbMethods.dbSetup();
     await auth.insertSaltedHashedUserInDB("studio", "ghibli");
+    token = await auth.authenticateUser("ghibli", "studio", (error, authtoken) => {
+      return authtoken;
+    });
   });
 
-  afterEach(async () => {
+  afterAll(async () => {
     await dbMethods.dbClear();
   });
 
-  it("Test user Add Wrong Password", async () => {
-    await auth.authenticateUser("ghibli", "studi", (error, token) => {
-      expect(token).toBe(null);
-      expect(Boolean(error)).toBe(true);
-    });
-  });
-  it("Test user Add Wrong Username", async () => {
-    await auth.authenticateUser("ghibl", "studio", (error, token) => {
-      expect(token).toBe(null);
-      expect(Boolean(error)).toBe(true);
-    });
-  });
-  it("Test user Add", async () => {
-    await auth.authenticateUser("ghibli", "studio", (error, token) => {
-      expect(Boolean(token)).toBe(true);
-      expect(error).toBe(null);
-    });
-  });
   it("Test save new Gas", async () => {
     const UNITS = 123;
     await request(app)
       .post("/gas")
+      .set("Authorization", `Bearer ${token}`)
       .send({ units: UNITS })
       .expect(statusCodes.OK)
       .then((response) => {

@@ -7,7 +7,7 @@
 
 const express = require("express");
 const path = require("path");
-// const auth = require("./auth/auth");
+const auth = require("./auth/auth");
 module.exports = express();
 const app = module.exports;
 
@@ -24,8 +24,8 @@ app.set("views", path.join(__dirname, "views"));
 // middleware
 
 app.use("/login", login);
-// app.use("/gas", auth.restrict, gasEndpoint);
-app.use("/gas", gasEndpoint);
+app.use("/gas", auth.restrict, gasEndpoint);
+// app.use("/gas", gasEndpoint);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");

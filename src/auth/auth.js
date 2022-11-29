@@ -55,7 +55,7 @@ exports.insertSaltedHashedUserInDB = (password, username) => {
   });
 };
 
-exports.authenticateUser = async (name, password, errToken) => {
+exports.authenticateUser = (name, password, errToken) => {
   console.log("authenticating %s:%s", name, password);
 
   // query the db for the given username
@@ -75,32 +75,34 @@ exports.authenticateUser = async (name, password, errToken) => {
     db.close();
   });
 
-  await getUserSaltHash
-    .then((saltedhash) => {
-      crypto.pbkdf2(password, saltedhash[0], iterations, keyLength, digest, (error, hash) => {
-        if (error) return errToken(error, null);
+  return new Promise((resolve) => {
+    getUserSaltHash
+      .then((saltedhash) => {
+        crypto.pbkdf2(password, saltedhash[0], iterations, keyLength, digest, (error, hash) => {
+          if (error) resolve(errToken(error, null));
 
-        //   match pw hash with db hash
-        if (hash.toString("base64") === saltedhash[1]) {
-          // generate token
-          const token = jwt.sign({ username: saltedhash[2] }, process.env.GEHUIMPIE, {
-            expiresIn: "24h"
-          });
-          console.log(token);
-          return errToken(null, token);
-        }
-        return errToken("Wrong Password", null);
+          //   match pw hash with db hash
+          if (hash.toString("base64") === saltedhash[1]) {
+            // generate token
+            const token = jwt.sign({ username: saltedhash[2] }, process.env.GEHUIMPIE, {
+              expiresIn: "24h"
+            });
+            console.log(token);
+            resolve(errToken(null, token));
+          } else {
+            resolve(errToken("Wrong Password", null));
+          }
+        });
+      })
+      .catch(() => {
+        resolve(errToken(`Cannot find Username: ${name}`, null));
       });
-    })
-    .catch(() => {
-      return errToken(`Cannot find Username: ${name}`, null);
-    });
+  });
 };
 
 exports.restrict = (req, res, next) => {
   const authHeader = req.headers.authorization;
   const token = authHeader && authHeader.split(" ")[1];
-  console.log(authHeader);
   if (token === null) {
     req.error = "Access denied!";
     res.redirect("/login");
