@@ -18,6 +18,7 @@ describe("Tests for gas model", () => {
   afterAll(async () => {
     await dbMethods.dbClear();
   });
+  //   view gas list and instance
 
   it("Test save new Gas", async () => {
     const UNITS = 123;
