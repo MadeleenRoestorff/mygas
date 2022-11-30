@@ -56,7 +56,7 @@ exports.insertSaltedHashedUserInDB = (password, username) => {
 };
 
 exports.authenticateUser = (name, password, errToken) => {
-  console.log("authenticating %s:%s", name, password);
+  //   console.log("authenticating %s:%s", name, password);
 
   // query the db for the given username
   const getUserSaltHash = new Promise((resolve, reject) => {
@@ -87,7 +87,7 @@ exports.authenticateUser = (name, password, errToken) => {
             const token = jwt.sign({ username: saltedhash[2] }, process.env.GEHUIMPIE, {
               expiresIn: "24h"
             });
-            console.log(token);
+            // console.log(token);
             resolve(errToken(null, token));
           } else {
             resolve(errToken("Wrong Password", null));

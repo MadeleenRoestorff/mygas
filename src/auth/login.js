@@ -3,6 +3,7 @@
 const express = require("express");
 const router = express.Router();
 const auth = require("./auth");
+// const statusCodes = require("http-status-codes").StatusCodes;
 
 // middleware
 router.use(express.urlencoded({ extended: false }));
@@ -19,6 +20,7 @@ router.post("/", async (req, res, next) => {
       res.redirect("back");
     } else {
       res.redirect("/login");
+      //   res.status(statusCodes.UNAUTHORIZED);
     }
   });
 });
