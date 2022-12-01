@@ -28,58 +28,81 @@ exports.insertSaltedHashedUserInDB = (password, username) => {
    * @param {string} username: user username
    */
 
-  crypto.pbkdf2(password, bufferSalt, iterations, keyLength, digest, (error, hash) => {
-    if (error) throw error;
-
-    // store the salt & hash in the "db"
-    const db = new sqlite3.Database(process.env.DATABASE);
-    db.run(
-      `INSERT INTO users (username, salt, hash) VALUES ('${username}', '${bufferSalt}', '${hash.toString(
-        "base64"
-      )}')`
-    );
-    db.close();
+  return new Promise((resolve, reject) => {
+    crypto.pbkdf2(password, bufferSalt, iterations, keyLength, digest, (error, hash) => {
+      if (error) reject(error);
+      try {
+        const db = new sqlite3.Database(process.env.DATABASE);
+        db.all(
+          `INSERT INTO users (username, salt, hash) VALUES ('${username}', '${bufferSalt}', '${hash.toString(
+            "base64"
+          )}')`,
+          [],
+          (errordb, row) => {
+            if (errordb) {
+              reject(errordb);
+            } else {
+              resolve(row);
+            }
+          }
+        );
+        db.close();
+      } catch (errorTry) {
+        console.log("Could Not Create User");
+        reject(errorTry);
+      }
+    });
   });
 };
 
-exports.authenticateUser = async (name, password, errToken) => {
-  console.log("authenticating %s:%s", name, password);
+exports.authenticateUser = (name, password, errToken) => {
+  //   console.log("authenticating %s:%s", name, password);
 
   // query the db for the given username
   const getUserSaltHash = new Promise((resolve, reject) => {
     const db = new sqlite3.Database(process.env.DATABASE);
-    db.get(`SELECT * FROM users WHERE username = '${name}'`, (error, row) => {
-      if (error) {
-        reject(errToken(error));
+    db.get(`SELECT * FROM users WHERE username = '${name}'`, (errordb, row) => {
+      if (errordb) {
+        reject(errordb);
       } else {
-        resolve([row.salt, row.hash, row.username]);
+        try {
+          resolve([row.salt, row.hash, row.username]);
+        } catch (errorCaught) {
+          reject(errorCaught);
+        }
       }
     });
     db.close();
   });
 
-  const saltedhash = await getUserSaltHash;
+  return new Promise((resolve) => {
+    getUserSaltHash
+      .then((saltedhash) => {
+        crypto.pbkdf2(password, saltedhash[0], iterations, keyLength, digest, (error, hash) => {
+          if (error) resolve(errToken(error, null));
 
-  crypto.pbkdf2(password, saltedhash[0], iterations, keyLength, digest, (error, hash) => {
-    if (error) return errToken(error);
-
-    //   match pw hash with db hash
-    if (hash.toString("base64") === saltedhash[1]) {
-      // generate token
-      const token = jwt.sign({ username: saltedhash[2] }, process.env.GEHUIMPIE, {
-        expiresIn: "24h"
+          //   match pw hash with db hash
+          if (hash.toString("base64") === saltedhash[1]) {
+            // generate token
+            const token = jwt.sign({ username: saltedhash[2] }, process.env.GEHUIMPIE, {
+              expiresIn: "24h"
+            });
+            // console.log(token);
+            resolve(errToken(null, token));
+          } else {
+            resolve(errToken("Wrong Password", null));
+          }
+        });
+      })
+      .catch(() => {
+        resolve(errToken(`Cannot find Username: ${name}`, null));
       });
-      console.log(token);
-      return errToken(null, token);
-    }
-    return errToken(null, null);
   });
 };
 
 exports.restrict = (req, res, next) => {
   const authHeader = req.headers.authorization;
   const token = authHeader && authHeader.split(" ")[1];
-  console.log(authHeader);
   if (token === null) {
     req.error = "Access denied!";
     res.redirect("/login");

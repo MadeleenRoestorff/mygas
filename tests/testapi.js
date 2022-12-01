@@ -5,7 +5,7 @@ const AUTH =
 
 axios
   .post(
-    "http://localhost:3000/controller",
+    "http://localhost:3000/gas",
     { units: 115, GasLogID: 55 },
     {
       headers: {
@@ -21,7 +21,7 @@ axios
   });
 
 // axios
-//   .get("http://localhost:3000/controller", {
+//   .get("http://localhost:3000/gas", {
 //     headers: {
 //       Authorization: AUTH
 //     }

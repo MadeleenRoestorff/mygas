@@ -77,7 +77,14 @@
                 "ignoreGlobals": true
             }
         ],
-        "class-methods-use-this": "error",
+        "class-methods-use-this": [
+            "error",
+            {
+                "exceptMethods": [
+                    "#insertIntoDB"
+                ]
+            }
+        ],
         "consistent-return": [
             "error",
             {
