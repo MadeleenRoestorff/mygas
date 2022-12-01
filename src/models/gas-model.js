@@ -22,16 +22,20 @@ class Gas {
   }
   #insertIntoDB(query) {
     return new Promise((resolve, reject) => {
+      const stain = this.fields.units;
       try {
         const db = new sqlite3.Database(process.env.DATABASE);
         db.run(query, function () {
           try {
+            console.log(this, stain);
             if (this.lastID) {
               // Contain the value of the last inserted row ID
               resolve(this.lastID);
-            } else {
+            } else if (this.changes === 1) {
               // The number of rows affected by this query
               resolve(this.changes);
+            } else {
+              reject(new Error("Incorrect ID"));
             }
           } catch (error) {
             reject(error);
@@ -46,17 +50,21 @@ class Gas {
 
   save() {
     return new Promise((resolve, reject) => {
+      let query = null;
       try {
         if (this.fields.GasLogID) {
           this.fields.updateon = new Date().toISOString();
-          const query = `UPDATE gas SET units = ${this.fields.units}, updateon = '${this.fields.updateon}'  WHERE GasLogID = ${this.fields.GasLogID}`;
-          resolve(this.#insertIntoDB(query));
+          query = `UPDATE gas SET units = ${this.fields.units}, updateon = '${this.fields.updateon}'  WHERE GasLogID = ${this.fields.GasLogID}`;
         } else {
           this.fields.createon = new Date().toISOString();
           this.fields.updateon = this.fields.createon;
-          const query = `INSERT INTO gas (units, createon, updateon ) VALUES ('${this.fields.units}', '${this.fields.createon}','${this.fields.updateon}')`;
-          resolve(this.#insertIntoDB(query));
+          query = `INSERT INTO gas (units, createon, updateon ) VALUES ('${this.fields.units}', '${this.fields.createon}','${this.fields.updateon}')`;
         }
+        resolve(
+          this.#insertIntoDB(query).catch((error) => {
+            console.log(error);
+          })
+        );
       } catch (error) {
         reject(error);
       }

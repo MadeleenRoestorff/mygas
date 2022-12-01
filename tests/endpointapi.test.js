@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 const dbMethods = require("../src/db/db-methods");
 const app = require("../src/app");
 const request = require("supertest");
@@ -51,6 +52,18 @@ describe("Tests for gas model", () => {
     const UNITS = 777;
     await request(app)
       .put(`/gas/${gasID}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send({ units: UNITS })
+      .expect(statusCodes.OK)
+      .then((response) => {
+        expect(response.body.units).toBe(UNITS);
+      });
+  });
+
+  it("Test Update Gas with incorrect ID", async () => {
+    const UNITS = 999;
+    await request(app)
+      .put("/gas/999")
       .set("Authorization", `Bearer ${token}`)
       .send({ units: UNITS })
       .expect(statusCodes.OK)

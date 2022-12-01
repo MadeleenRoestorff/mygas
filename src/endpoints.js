@@ -49,7 +49,9 @@ router.post("/", (req, res) => {
 
 router.put("/:id(\\d+)", (req, res) => {
   parseBody(req, res, (body) => {
-    body.GasLogID = Number(req.params.id);
+    const gasLodID = Number(req.params.id);
+    // console.log("gasLodID", gasLodID);
+    body.GasLogID = gasLodID;
     const updateGas = new Gas(body);
     updateGas.save().finally(() => {
       res.json(updateGas.fields);
