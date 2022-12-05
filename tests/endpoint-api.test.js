@@ -34,6 +34,10 @@ describe("Tests for gas model", () => {
         gasID = response.body.GasLogID;
       });
   });
+
+  it("Test gas list", async () => {
+    await request(app).get("/gas").set("Authorization", `Bearer ${token}`).expect(statusCodes.OK);
+  });
   it("Test save new Gas with no body request", async () => {
     await request(app)
       .post("/gas")
