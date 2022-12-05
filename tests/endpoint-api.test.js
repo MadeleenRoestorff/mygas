@@ -66,11 +66,9 @@ describe("Tests for gas model", () => {
       .put("/gas/999")
       .set("Authorization", `Bearer ${token}`)
       .send({ units: UNITS })
-      .expect(statusCodes.OK)
-      .then((response) => {
-        expect(response.body.units).toBe(UNITS);
-      });
+      .expect(statusCodes.NOT_ACCEPTABLE);
   });
+
   it("Test Update Gas with incorrect body request", async () => {
     const UNITS = 777;
     await request(app)
@@ -79,6 +77,7 @@ describe("Tests for gas model", () => {
       .send({ unit: UNITS })
       .expect(statusCodes.NOT_ACCEPTABLE);
   });
+
   it("Test Update Gas with no body request", async () => {
     await request(app)
       .put(`/gas/${gasID}`)

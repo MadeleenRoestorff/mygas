@@ -40,22 +40,43 @@ const parseBody = (req, res, saveGas) => {
 router.post("/", (req, res) => {
   parseBody(req, res, (body) => {
     const addNewGas = new Gas(body);
-    addNewGas.save().then((response) => {
-      addNewGas.fields.GasLogID = response;
-      res.json(addNewGas.fields);
-    });
+    addNewGas
+      .save()
+      .then((response) => {
+        addNewGas.fields.GasLogID = response;
+        res.json(addNewGas.fields);
+      })
+      .catch(() => {
+        res.status(statusCodes.NOT_ACCEPTABLE);
+        res.json(null);
+      });
   });
 });
 
 router.put("/:id(\\d+)", (req, res) => {
   parseBody(req, res, (body) => {
-    const gasLodID = Number(req.params.id);
-    // console.log("gasLodID", gasLodID);
-    body.GasLogID = gasLodID;
-    const updateGas = new Gas(body);
-    updateGas.save().finally(() => {
-      res.json(updateGas.fields);
-    });
+    try {
+      const gasLodID = Number(req.params.id);
+      if (gasLodID > 0) {
+        body.GasLogID = gasLodID;
+        const updateGas = new Gas(body);
+        updateGas
+          .save()
+          .then(() => {
+            res.json(updateGas.fields);
+          })
+          .catch(() => {
+            res.status(statusCodes.NOT_ACCEPTABLE);
+            res.json(null);
+          });
+      } else {
+        res.status(statusCodes.NOT_ACCEPTABLE);
+        res.json(null);
+      }
+    } catch (error) {
+      res.status(statusCodes.NOT_ACCEPTABLE);
+      res.json(null);
+    }
   });
 });
 

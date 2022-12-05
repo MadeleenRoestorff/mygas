@@ -136,7 +136,7 @@
         ],
         "max-nested-callbacks": [
             "error",
-            3
+            4
         ],
         "max-params": [
             "error",

@@ -62,7 +62,7 @@ class Gas {
         }
         resolve(
           this.#insertIntoDB(query).catch((error) => {
-            console.log(error);
+            throw error;
           })
         );
       } catch (error) {
