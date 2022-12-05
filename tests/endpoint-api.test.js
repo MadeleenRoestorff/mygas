@@ -19,7 +19,6 @@ describe("Tests for gas model", () => {
   afterAll(async () => {
     await dbMethods.dbClear();
   });
-  //   view gas list and instance
 
   it("Test save new Gas", async () => {
     const UNITS = 123;
@@ -36,14 +35,22 @@ describe("Tests for gas model", () => {
   });
 
   it("Test gas list", async () => {
-    await request(app).get("/gas").set("Authorization", `Bearer ${token}`).expect(statusCodes.OK);
+    await request(app)
+      .get("/gas")
+      .set("Authorization", `Bearer ${token}`)
+      .expect(statusCodes.OK)
+      .then((response) => {
+        expect(response.body.length).toBe(1);
+      });
   });
+
   it("Test save new Gas with no body request", async () => {
     await request(app)
       .post("/gas")
       .set("Authorization", `Bearer ${token}`)
       .expect(statusCodes.BAD_REQUEST);
   });
+
   it("Test save new Gas with incorrect body request", async () => {
     const UNITS = 123;
     await request(app)
@@ -52,6 +59,7 @@ describe("Tests for gas model", () => {
       .send({ unit: UNITS })
       .expect(statusCodes.NOT_ACCEPTABLE);
   });
+
   it("Test Update Gas", async () => {
     const UNITS = 777;
     await request(app)
@@ -85,6 +93,31 @@ describe("Tests for gas model", () => {
   it("Test Update Gas with no body request", async () => {
     await request(app)
       .put(`/gas/${gasID}`)
+      .set("Authorization", `Bearer ${token}`)
+      .expect(statusCodes.BAD_REQUEST);
+  });
+
+  it("Test gas list", async () => {
+    await request(app)
+      .get("/gas")
+      .set("Authorization", `Bearer ${token}`)
+      .expect(statusCodes.OK)
+      .then((response) => {
+        expect(response.body.length).toBe(1);
+      });
+  });
+  it("Test gas Instance correct ID", async () => {
+    await request(app)
+      .get("/gas/1")
+      .set("Authorization", `Bearer ${token}`)
+      .expect(statusCodes.OK)
+      .then((response) => {
+        expect(response.body.GasLogID).toBe(1);
+      });
+  });
+  it("Test gas Instance wrong ID", async () => {
+    await request(app)
+      .get("/gas/10")
       .set("Authorization", `Bearer ${token}`)
       .expect(statusCodes.BAD_REQUEST);
   });

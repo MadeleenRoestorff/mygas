@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 /* eslint-disable no-invalid-this */
 "use strict";
 const sqlite3 = require("sqlite3").verbose();
@@ -22,12 +23,10 @@ class Gas {
   }
   #insertIntoDB(query) {
     return new Promise((resolve, reject) => {
-      const stain = this.fields.units;
       try {
         const db = new sqlite3.Database(process.env.DATABASE);
         db.run(query, function () {
           try {
-            console.log(this, stain);
             if (this.lastID) {
               // Contain the value of the last inserted row ID
               resolve(this.lastID);
@@ -80,16 +79,23 @@ class Gas {
           if (error) {
             reject(error);
           } else {
-            gasEntry.GasLogID = row?.GasLogID ? row?.GasLogID : "";
-            gasEntry.units = row?.units ? row?.units : "";
-            gasEntry.createon = row?.createon ? row?.createon : "";
-            gasEntry.updateon = row?.updateon ? row?.updateon : "";
-            resolve(new Gas(gasEntry));
+            try {
+              gasEntry.GasLogID = row?.GasLogID;
+              gasEntry.units = row?.units ? row?.units : "";
+              gasEntry.createon = row?.createon ? row?.createon : "";
+              gasEntry.updateon = row?.updateon ? row?.updateon : "";
+              if (!row?.GasLogID) {
+                reject(gasEntry);
+              }
+              resolve(new Gas(gasEntry));
+            } catch (errorDBCallback) {
+              reject(errorDBCallback);
+            }
           }
         });
         db.close();
-      } catch (error) {
-        console.log("Error::", error);
+      } catch (errorDB) {
+        console.log("Error::", errorDB);
         reject(gasEntry);
       }
     });
