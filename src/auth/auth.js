@@ -9,6 +9,7 @@
 const crypto = require("crypto");
 const sqlite3 = require("sqlite3").verbose();
 const dotenv = require("dotenv");
+const statusCodes = require("http-status-codes").StatusCodes;
 const jwt = require("jsonwebtoken");
 
 const digest = "sha256";
@@ -56,8 +57,6 @@ exports.insertSaltedHashedUserInDB = (password, username) => {
 };
 
 exports.authenticateUser = (name, password, errToken) => {
-  //   console.log("authenticating %s:%s", name, password);
-
   // query the db for the given username
   const getUserSaltHash = new Promise((resolve, reject) => {
     const db = new sqlite3.Database(process.env.DATABASE);
@@ -105,12 +104,14 @@ exports.restrict = (req, res, next) => {
   const token = authHeader && authHeader.split(" ")[1];
   if (token === null) {
     req.error = "Access denied!";
-    res.redirect("/login");
+    res.status(statusCodes.UNAUTHORIZED);
+    res.json(null);
   } else {
     jwt.verify(token, process.env.GEHUIMPIE, (error, user) => {
       if (error) {
         req.error = error;
-        res.redirect("/login");
+        res.status(statusCodes.UNAUTHORIZED);
+        res.json(null);
       } else {
         req.user = user;
         next();

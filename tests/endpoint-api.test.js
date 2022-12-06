@@ -106,6 +106,7 @@ describe("Tests for endpoint api", () => {
         expect(response.body.length).toBe(1);
       });
   });
+
   it("Test gas Instance correct ID", async () => {
     await request(app)
       .get("/gas/1")
@@ -115,6 +116,7 @@ describe("Tests for endpoint api", () => {
         expect(response.body.GasLogID).toBe(1);
       });
   });
+
   it("Test gas Instance wrong ID", async () => {
     await request(app)
       .get("/gas/10")
