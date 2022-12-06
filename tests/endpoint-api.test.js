@@ -5,7 +5,7 @@ const request = require("supertest");
 const statusCodes = require("http-status-codes").StatusCodes;
 const auth = require("../src/auth/auth");
 
-describe("Tests for gas model", () => {
+describe("Tests for endpoint api", () => {
   let token = null;
   let gasID = 0;
   beforeAll(async () => {

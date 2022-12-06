@@ -1,7 +1,7 @@
 const dbMethods = require("../src/db/db-methods");
 const auth = require("../src/auth/auth");
 
-describe("Tests for gas model", () => {
+describe("Tests for user authentication", () => {
   beforeEach(async () => {
     await dbMethods.dbSetup();
     await auth.insertSaltedHashedUserInDB("studio", "ghibli");
@@ -31,3 +31,6 @@ describe("Tests for gas model", () => {
     });
   });
 });
+
+// test if invalid token
+// test for no  auth header token
