@@ -86,7 +86,7 @@ exports.authenticateUser = (name, password, errToken) => {
             const token = jwt.sign({ username: saltedhash[2] }, process.env.GEHUIMPIE, {
               expiresIn: "24h"
             });
-            // console.log(token);
+            console.log(process.env.GEHUIMPIE);
             resolve(errToken(null, token));
           } else {
             resolve(errToken("Wrong Password", null));
