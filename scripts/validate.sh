@@ -10,7 +10,7 @@ else
     exit 1
 fi
 
-if npx prettier --check "src/**/*.js"
+if npx prettier --check "src/**/*.ts"
 then
     echo "Prettier Completed"
 else
