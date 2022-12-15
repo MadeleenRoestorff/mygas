@@ -1,15 +1,24 @@
 /* eslint-disable no-magic-numbers */
 import express, { Application, Request, Response } from "express";
-import "dotenv/config";
+import path from "path";
+import { restrict } from "../src/auth/auth";
+// import login from "";
+import gasEndpoint from "./endpoints";
+import { StatusCodes } from "http-status-codes";
 
 const app: Application = express();
 
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
+// middleware
+
+// app.use("/login", login);
+app.use("/gas", restrict, gasEndpoint);
+
 app.get("/", (req: Request, res: Response) => {
   res.send("hello");
-
-  console.log(process.env.MYNAME);
-  console.log(process.env.DATABASE);
+  res.status(StatusCodes.OK);
 });
 
-const PORT = 3000;
-app.listen(PORT, () => console.log("Server running"));
+export default app;

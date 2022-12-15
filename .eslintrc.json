@@ -131,7 +131,7 @@
         ],
         "max-nested-callbacks": [
             "error",
-            4
+            5
         ],
         "max-params": [
             "error",
@@ -139,12 +139,12 @@
         ],
         "max-statements": [
             "error",
-            10
+            11
         ],
         "new-cap": [
             "error",
             {
-                "capIsNewExceptionPattern": "\\.Router$"
+                "capIsNewExceptionPattern": "^Router"
             }
         ],
         "no-alert": "error",
@@ -226,6 +226,12 @@
             }
         ],
         "no-unused-vars": [
+            "error",
+            {
+                "argsIgnorePattern": "^_"
+            }
+        ],
+        "@typescript-eslint/no-unused-vars": [
             "error",
             {
                 "argsIgnorePattern": "^_"

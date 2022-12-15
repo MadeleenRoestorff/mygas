@@ -4,14 +4,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const testfile_1 = __importDefault(require("./testfolder/testfile"));
-const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
+const path_1 = __importDefault(require("path"));
+const auth_1 = require("../src/auth/auth");
+const endpoints_1 = __importDefault(require("./endpoints"));
+const http_status_codes_1 = require("http-status-codes");
 const app = (0, express_1.default)();
+app.set("view engine", "ejs");
+app.set("views", path_1.default.join(__dirname, "views"));
+app.use("/gas", auth_1.restrict, endpoints_1.default);
 app.get("/", (req, res) => {
-    res.send(`hello ${(0, testfile_1.default)(5, 17)}`);
-    console.log((0, testfile_1.default)(5, 17));
-    console.log(process.env.MYNAME);
+    res.send("hello");
+    res.status(http_status_codes_1.StatusCodes.OK);
 });
-const PORT = 3000;
-app.listen(PORT, () => console.log("Server running"));
+exports.default = app;
