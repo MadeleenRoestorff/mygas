@@ -12,6 +12,8 @@ router.get("/:id(\\d+)", (req, res) => {
   Gas.getGasInstance(req.params.id)
     .then((gasInstance) => {
       res.json(gasInstance.fields);
+      console.log(gasInstance.constructor);
+      console.log(Object.getOwnPropertyNames(gasInstance));
       //   console.log(Object.keys(res.req));
     })
     .catch(() => {

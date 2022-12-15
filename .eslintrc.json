@@ -2,7 +2,9 @@
     "root": true,
     "env": {
         "browser": true,
-        "es2021": true
+        "es2021": true,
+        "node": true,
+        "jest": true
     },
     "extends": [
         "eslint:recommended",
@@ -20,20 +22,7 @@
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
-    "globals": {
-        "require": "writable",
-        "module": "writable",
-        "exports": "writable",
-        "process": "writable",
-        "__dirname": "writable",
-        "describe": "writable",
-        "it": "writable",
-        "expect": "writable",
-        "beforeAll": "writable",
-        "afterAll": "writable",
-        "beforeEach": "writable",
-        "afterEach": "writable"
-    },
+    "globals": {},
     "rules": {
         "quotes": [
             "error",
