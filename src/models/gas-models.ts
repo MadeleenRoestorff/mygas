@@ -2,6 +2,7 @@
 /* eslint-disable no-invalid-this */
 import sqlite3 from "sqlite3";
 import "dotenv/config";
+import Logger from "./logger-model";
 
 // get config vars
 sqlite3.verbose();
@@ -71,6 +72,8 @@ class Gas {
         this.#insertIntoDB(query)
           .then((change) => {
             resolve(change);
+            const logger = new Logger();
+            logger.info("new field added to DB");
           })
           .catch((error) => {
             reject(error);
