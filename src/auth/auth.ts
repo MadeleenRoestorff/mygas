@@ -21,7 +21,7 @@ sqlite3.verbose();
 
 // everything should just break if we can't import env vars
 const dataBase = process.env.DATABASE || "no-db";
-const gehuim = process.env.GEHUIMPIE;
+const secret = process.env.SECRETJT;
 
 // unique username check
 
@@ -81,13 +81,13 @@ export const authenticateUser = (name: string, password: string, errToken: Error
       .then((saltedhash) => {
         crypto.pbkdf2(password, saltedhash[0], iterations, keyLength, digest, (error, hash) => {
           if (error) resolve(errToken(error, null));
-          if (!gehuim) {
+          if (!secret) {
             reject(new Error("Error: Invalid secret"));
           }
           //   match pw hash with db hash
-          if (hash.toString("base64") === saltedhash[1] && gehuim) {
+          if (hash.toString("base64") === saltedhash[1] && secret) {
             // generate token
-            const token = jwt.sign({ username: saltedhash[2] }, gehuim, {
+            const token = jwt.sign({ username: saltedhash[2] }, secret, {
               expiresIn: "24h"
             });
             resolve(errToken(null, token));
@@ -105,12 +105,12 @@ export const authenticateUser = (name: string, password: string, errToken: Error
 export const restrict = (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
   const token: string | null = authHeader?.split?.(" ")?.[1] || null;
-  if (!token || !gehuim) {
+  if (!token || !secret) {
     res.status(StatusCodes.UNAUTHORIZED);
     res.json(null);
   } else {
     try {
-      const isVerified = verify(token, gehuim);
+      const isVerified = verify(token, secret);
       if (isVerified) {
         next();
       } else {

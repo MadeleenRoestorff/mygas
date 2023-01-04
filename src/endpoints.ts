@@ -1,19 +1,34 @@
-"use strict";
-import { Router, Request, Response } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 import bodyParser from "body-parser";
 import Gas from "./models/gas-models";
 import { StatusCodes } from "http-status-codes";
+import Logger from "./models/logger-model";
 
 // Middleware
 const router = Router();
 router.use(bodyParser.json());
+const logger = new Logger();
+
+router.use((req: Request, res: Response, next: NextFunction) => {
+  logger.info(`REQ: ${JSON.stringify(req.body)}, Type: ${req.method}, URL: ${req.originalUrl}`);
+
+  //   Intercept response log it and then send it
+  const response = res.send;
+  res.send = (sendResponse) => {
+    logger.info(`RES: ${sendResponse} ${res.statusCode}`);
+    res.send = response;
+    return res.send(sendResponse);
+  };
+  next();
+});
 
 router.get("/:id(\\d+)", (req: Request, res: Response) => {
   Gas.getGasInstance(Number(req.params.id))
     .then((gasInstance) => {
       res.json(gasInstance?.getFields());
     })
-    .catch(() => {
+    .catch((error) => {
+      logger.debug(JSON.stringify(error, Object.getOwnPropertyNames(error)));
       res.status(StatusCodes.BAD_REQUEST);
       res.json(null);
     });
@@ -25,7 +40,8 @@ router.get("/", (req: Request, res: Response) => {
       const fieldsList = gasData.map((gas) => gas.getFields());
       res.json(fieldsList);
     })
-    .catch(() => {
+    .catch((error) => {
+      logger.debug(JSON.stringify(error, Object.getOwnPropertyNames(error)));
       res.status(StatusCodes.BAD_REQUEST);
       res.json(null);
     });
@@ -37,7 +53,7 @@ type Units = {
 };
 type SaveGasCallBack = (_units: Units) => void;
 
-const parseBody = (req: Request, res: Response, saveGas: SaveGasCallBack) => {
+const parseBody = (req: Request, res: Response, saveGas: SaveGasCallBack): void => {
   if (req.body && Object.keys(req.body).length !== 0) {
     if (typeof req.body?.units === "number" && req.body?.units >= 0) {
       // I am in CONTROL of the payload
@@ -53,25 +69,27 @@ const parseBody = (req: Request, res: Response, saveGas: SaveGasCallBack) => {
 };
 
 router.post("/", (req: Request, res: Response) => {
-  parseBody(req, res, (body) => {
-    const addNewGas = new Gas(body);
-    addNewGas
-      .save()
-      .then((response) => {
-        if (response) {
+  try {
+    parseBody(req, res, (body) => {
+      console.log(body);
+      const addNewGas = new Gas(body);
+      addNewGas
+        .save()
+        .then((response) => {
           const tempGasCopy = { ...addNewGas.getFields() };
           tempGasCopy.GasLogID = Number(response);
           res.json(tempGasCopy);
-        } else {
+        })
+        .catch((error) => {
+          logger.debug(JSON.stringify(error, Object.getOwnPropertyNames(error)));
           res.status(StatusCodes.NOT_ACCEPTABLE);
           res.json(null);
-        }
-      })
-      .catch(() => {
-        res.status(StatusCodes.NOT_ACCEPTABLE);
-        res.json(null);
-      });
-  });
+        });
+    });
+  } catch (error) {
+    logger.debug(JSON.stringify(error, Object.getOwnPropertyNames(error)));
+    res.json(null);
+  }
 });
 
 router.put("/:id(\\d+)", (req, res) => {
@@ -86,11 +104,13 @@ router.put("/:id(\\d+)", (req, res) => {
         .then(() => {
           res.json(updateGas.getFields());
         })
-        .catch(() => {
+        .catch((error) => {
+          logger.debug(JSON.stringify(error, Object.getOwnPropertyNames(error)));
           res.status(StatusCodes.NOT_ACCEPTABLE);
           res.json(null);
         });
     } else {
+      logger.debug("ID is smaller than 0");
       res.status(StatusCodes.NOT_ACCEPTABLE);
       res.json(null);
     }

@@ -33,7 +33,7 @@ const FileLogWriter: LogWriter = {
   }
 };
 
-const url = "https://hooks.slack.com/services/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";
+const url = process.env.SLACKURL || "";
 
 const SlackLogWriter: LogWriter = {
   info(txt: string): void {
@@ -48,7 +48,7 @@ const SlackLogWriter: LogWriter = {
 };
 
 class Logger {
-  // process.env.NODE_ENV == "test"
+  // Assume production
   #logWriter = SlackLogWriter;
 
   constructor() {
