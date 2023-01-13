@@ -139,7 +139,7 @@
         ],
         "max-statements": [
             "error",
-            11
+            13
         ],
         "new-cap": [
             "error",

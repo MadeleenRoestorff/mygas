@@ -1,8 +1,7 @@
 /* eslint-disable prefer-arrow-callback */
-import sqlite3 from "sqlite3";
-import "dotenv/config";
 
-// get config vars
+import "dotenv/config";
+import sqlite3 from "sqlite3";
 sqlite3.verbose();
 
 const usersDbColumns = [
