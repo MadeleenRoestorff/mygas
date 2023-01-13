@@ -12,7 +12,7 @@ const logger = new Logger();
 router.use((req: Request, res: Response, next: NextFunction) => {
   logger.info(`REQ: ${JSON.stringify(req.body)}, Type: ${req.method}, URL: ${req.originalUrl}`);
 
-  //   Intercept response log it and then send it
+  // Intercept response log it and then send it
   const response = res.send;
   res.send = (sendResponse) => {
     logger.info(`RES: ${sendResponse} ${res.statusCode}`);
@@ -28,7 +28,7 @@ router.get("/:id(\\d+)", (req: Request, res: Response) => {
       res.json(gasInstance?.getFields());
     })
     .catch((error) => {
-      logger.debug(JSON.stringify(error, Object.getOwnPropertyNames(error)));
+      logger.error(error.message);
       res.status(StatusCodes.BAD_REQUEST);
       res.json(null);
     });
@@ -41,7 +41,7 @@ router.get("/", (req: Request, res: Response) => {
       res.json(fieldsList);
     })
     .catch((error) => {
-      logger.debug(JSON.stringify(error, Object.getOwnPropertyNames(error)));
+      logger.error(error.message);
       res.status(StatusCodes.BAD_REQUEST);
       res.json(null);
     });
@@ -53,7 +53,7 @@ type Units = {
 };
 type SaveGasCallBack = (_units: Units) => void;
 
-const parseBody = (req: Request, res: Response, saveGas: SaveGasCallBack): void => {
+const parseBody = (req: Request, res: Response, saveGas: SaveGasCallBack): void | Error => {
   if (req.body && Object.keys(req.body).length !== 0) {
     if (typeof req.body?.units === "number" && req.body?.units >= 0) {
       // I am in CONTROL of the payload
@@ -71,23 +71,22 @@ const parseBody = (req: Request, res: Response, saveGas: SaveGasCallBack): void 
 router.post("/", (req: Request, res: Response) => {
   try {
     parseBody(req, res, (body) => {
-      console.log(body);
       const addNewGas = new Gas(body);
       addNewGas
         .save()
         .then((response) => {
           const tempGasCopy = { ...addNewGas.getFields() };
-          tempGasCopy.GasLogID = Number(response);
+          tempGasCopy.GasLogID = response;
           res.json(tempGasCopy);
         })
         .catch((error) => {
-          logger.debug(JSON.stringify(error, Object.getOwnPropertyNames(error)));
+          logger.error(error.message);
           res.status(StatusCodes.NOT_ACCEPTABLE);
           res.json(null);
         });
     });
   } catch (error) {
-    logger.debug(JSON.stringify(error, Object.getOwnPropertyNames(error)));
+    logger.error(error instanceof Error ? error.message : "Incorrect Body");
     res.json(null);
   }
 });
@@ -105,12 +104,12 @@ router.put("/:id(\\d+)", (req, res) => {
           res.json(updateGas.getFields());
         })
         .catch((error) => {
-          logger.debug(JSON.stringify(error, Object.getOwnPropertyNames(error)));
+          logger.error(error.message);
           res.status(StatusCodes.NOT_ACCEPTABLE);
           res.json(null);
         });
     } else {
-      logger.debug("ID is smaller than 0");
+      logger.error("ID is smaller than 0");
       res.status(StatusCodes.NOT_ACCEPTABLE);
       res.json(null);
     }
