@@ -1,5 +1,5 @@
 import { dbSetup, dbClear } from "../db/db-methods";
-import { insertSaltedHashedUserInDB, authenticateUser } from "../auth/auth";
+import { insertSaltedHashedUserInDB, authenticateUser } from "../auth/auth-copy";
 import app from "../app";
 import request from "supertest";
 import { StatusCodes } from "http-status-codes";

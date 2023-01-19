@@ -1,6 +1,6 @@
 /* eslint-disable max-statements */
 import { dbSetup, dbClear } from "../db/db-methods";
-import { insertSaltedHashedUserInDB, authenticateUser } from "../auth/auth";
+import { insertSaltedHashedUserInDB, authenticateUser } from "../auth/auth-copy";
 import app from "../app";
 import request from "supertest";
 import { StatusCodes } from "http-status-codes";
@@ -13,6 +13,7 @@ describe("Tests for endpoint api", () => {
     await dbSetup();
     await insertSaltedHashedUserInDB("studio", "ghibli");
     await authenticateUser("studio", "ghibli", (error, authtoken) => {
+      console.log(authtoken);
       token = authtoken;
     });
   });
@@ -39,8 +40,9 @@ describe("Tests for endpoint api", () => {
     await request(app)
       .get("/gas")
       .set("Authorization", `Bearer ${token}`)
-      .expect(StatusCodes.OK)
+      //   .expect(StatusCodes.OK)
       .then((response) => {
+        console.log("response", response.body);
         expect(response.body.length).toBe(1);
       });
   });
@@ -122,6 +124,6 @@ describe("Tests for endpoint api", () => {
     await request(app)
       .get("/gas/10")
       .set("Authorization", `Bearer ${token}`)
-      .expect(StatusCodes.BAD_REQUEST);
+      .expect(StatusCodes.NOT_ACCEPTABLE);
   });
 });

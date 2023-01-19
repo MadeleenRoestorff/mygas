@@ -1,8 +1,8 @@
 import express, { Application, Request, Response } from "express";
 import path from "path";
-import { restrict } from "../src/auth/auth";
+import { restrict } from "../src/auth/auth-copy";
 import login from "./auth/login";
-import gasEndpoint from "./endpoints";
+import gasEndpoint from "./endpoints-copy";
 import { StatusCodes } from "http-status-codes";
 import "dotenv/config";
 import { createLogsDirIf } from "./utils/utils";
@@ -18,6 +18,7 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use("/login", login);
 app.use("/gas", restrict, gasEndpoint);
+// app.use("/gas", gasEndpoint);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("hello");

@@ -68,6 +68,8 @@ export const authenticateUser = (name: string, password: string, errToken: Error
    * Authenticate User with username and password.
    * Retrieve user salt and hash from user DB using username
    *
+   *
+   *
    * Calcultate new hash from password and salt using NODE crypto
    * Compare DB hash with calculated hash
    * if authenicated resolve token

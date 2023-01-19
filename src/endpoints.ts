@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from "express";
 import bodyParser from "body-parser";
-import Gas from "./models/gas-models";
+import Gas from "./models/gas-models-old";
 import { StatusCodes } from "http-status-codes";
 import Logger from "./models/logger-model";
 
@@ -12,7 +12,7 @@ const logger = new Logger();
 router.use((req: Request, res: Response, next: NextFunction) => {
   logger.info(`REQ: ${JSON.stringify(req.body)}, Type: ${req.method}, URL: ${req.originalUrl}`);
 
-  // Intercept response log it and then send it
+  //   Intercept response log it and then send it
   const response = res.send;
   res.send = (sendResponse) => {
     logger.info(`RES: ${sendResponse} ${res.statusCode}`);
@@ -71,12 +71,13 @@ const parseBody = (req: Request, res: Response, saveGas: SaveGasCallBack): void 
 router.post("/", (req: Request, res: Response) => {
   try {
     parseBody(req, res, (body) => {
+      console.log(body);
       const addNewGas = new Gas(body);
       addNewGas
         .save()
         .then((response) => {
           const tempGasCopy = { ...addNewGas.getFields() };
-          tempGasCopy.GasLogID = response;
+          tempGasCopy.GasLogID = Number(response);
           res.json(tempGasCopy);
         })
         .catch((error) => {
