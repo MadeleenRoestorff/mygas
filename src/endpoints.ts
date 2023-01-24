@@ -1,14 +1,15 @@
 import { Router, Request, Response, NextFunction } from "express";
 import bodyParser from "body-parser";
-import Gas from "./models/gas-models";
 import { StatusCodes } from "http-status-codes";
 import Logger from "./models/logger-model";
+import Gas from "./models/gas-model";
 
 // Middleware
 const router = Router();
 router.use(bodyParser.json());
 const logger = new Logger();
 
+// Logging API request
 router.use((req: Request, res: Response, next: NextFunction) => {
   logger.info(`REQ: ${JSON.stringify(req.body)}, Type: ${req.method}, URL: ${req.originalUrl}`);
 
@@ -22,98 +23,70 @@ router.use((req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-router.get("/:id(\\d+)", (req: Request, res: Response) => {
-  Gas.getGasInstance(Number(req.params.id))
-    .then((gasInstance) => {
-      res.json(gasInstance?.getFields());
+// Check that request body is present and if units is a number
+const bodyCheck = (req: Request, res: Response, next: NextFunction) => {
+  if (!req.body || Object.keys(req.body).length === 0 || !req.body.units) {
+    logger.error("No Request Body Sent");
+    res.status(StatusCodes.NOT_ACCEPTABLE);
+    res.json("No Request Body Sent");
+  } else if (typeof req.body.units === "number") {
+    next();
+  } else {
+    logger.error("Incorrect gas Units");
+    res.status(StatusCodes.NOT_ACCEPTABLE);
+    res.json("Incorrect gas Units");
+  }
+};
+
+// gasMethodRunner runs the selected method on the gas model class
+// then sends the response
+// also catches errors and logs the errors
+const gasMethodRunner = (res: Response, gasMethod: () => Promise<Gas[] | Gas>): void => {
+  gasMethod()
+    .then((response) => {
+      res.json(response);
     })
     .catch((error) => {
       logger.error(error.message);
-      res.status(StatusCodes.BAD_REQUEST);
-      res.json(null);
+      res.status(StatusCodes.NOT_ACCEPTABLE);
+      res.json(error.message);
     });
+};
+
+router.get("/:id(\\d+)", (req: Request, res: Response) => {
+  gasMethodRunner(res, () => Gas.getGasInstance(Number(req.params.id)));
 });
 
 router.get("/", (req: Request, res: Response) => {
-  Gas.getGasList()
-    .then((gasData) => {
-      const fieldsList = gasData.map((gas) => gas.getFields());
-      res.json(fieldsList);
-    })
-    .catch((error) => {
-      logger.error(error.message);
-      res.status(StatusCodes.BAD_REQUEST);
-      res.json(null);
-    });
+  gasMethodRunner(res, () => Gas.findAll());
 });
 
-type Units = {
-  units: number;
-  GasLogID?: number;
-};
-type SaveGasCallBack = (_units: Units) => void;
+router.post("/", bodyCheck, (req: Request, res: Response) => {
+  gasMethodRunner(res, () => Gas.create({ units: req.body.units }));
+});
 
-const parseBody = (req: Request, res: Response, saveGas: SaveGasCallBack): void | Error => {
-  if (req.body && Object.keys(req.body).length !== 0) {
-    if (typeof req.body?.units === "number" && req.body?.units >= 0) {
-      // I am in CONTROL of the payload
-      saveGas({ units: req.body.units });
-    } else {
-      res.status(StatusCodes.NOT_ACCEPTABLE);
-      throw new Error("Wrong Resquest Body Sent");
-    }
-  } else {
-    res.status(StatusCodes.BAD_REQUEST);
-    throw new Error("No Request Body Sent");
-  }
-};
-
-router.post("/", (req: Request, res: Response) => {
+router.put("/:id(\\d+)", bodyCheck, async (req: Request, res: Response) => {
   try {
-    parseBody(req, res, (body) => {
-      const addNewGas = new Gas(body);
-      addNewGas
-        .save()
-        .then((response) => {
-          const tempGasCopy = { ...addNewGas.getFields() };
-          tempGasCopy.GasLogID = response;
-          res.json(tempGasCopy);
-        })
-        .catch((error) => {
-          logger.error(error.message);
-          res.status(StatusCodes.NOT_ACCEPTABLE);
-          res.json(null);
-        });
-    });
-  } catch (error) {
-    logger.error(error instanceof Error ? error.message : "Incorrect Body");
-    res.json(null);
-  }
-});
+    const updateResult = await Gas.update(
+      { units: req.body.units },
+      {
+        where: {
+          GasLogID: Number(req.params.id)
+        }
+      }
+    );
+    // update returns 0 if update method did not make any changes
+    // Assume it is because it cannot find the ID
+    if (updateResult[0] === 0) throw Error("Cannot find ID");
 
-router.put("/:id(\\d+)", (req, res) => {
-  parseBody(req, res, (body) => {
-    const gasLodID = Number(req.params.id);
-    if (gasLodID > 0) {
-      const tempGasBodyCopy = { ...body };
-      tempGasBodyCopy.GasLogID = gasLodID;
-      const updateGas = new Gas(tempGasBodyCopy);
-      updateGas
-        .save()
-        .then(() => {
-          res.json(updateGas.getFields());
-        })
-        .catch((error) => {
-          logger.error(error.message);
-          res.status(StatusCodes.NOT_ACCEPTABLE);
-          res.json(null);
-        });
-    } else {
-      logger.error("ID is smaller than 0");
-      res.status(StatusCodes.NOT_ACCEPTABLE);
-      res.json(null);
-    }
-  });
+    // If update succeeded try to get the gas instance
+    gasMethodRunner(res, () => Gas.getGasInstance(Number(req.params.id)));
+  } catch (error) {
+    const errMessage = error instanceof Error ? error.message : "Incorrect Body";
+    logger.error(errMessage);
+    res.status(StatusCodes.NOT_ACCEPTABLE);
+    res.json(errMessage);
+  }
 });
 
 export default router;

@@ -16,6 +16,18 @@ describe("Tests for user authentication", () => {
     await dbClear();
   });
 
+  it("Test insert user without password", async () => {
+    await expect(async () => {
+      await insertSaltedHashedUserInDB("studioo", "");
+    }).rejects.toThrow("Password require 6 characters");
+  });
+
+  it("Test insert user already exist", async () => {
+    await expect(async () => {
+      await insertSaltedHashedUserInDB("studio", "ghibli");
+    }).rejects.toThrow(Error);
+  });
+
   it("Test user Add Wrong Username", async () => {
     await authenticateUser("studi", "ghibli", (error, tkn) => {
       expect(tkn).toBe(null);

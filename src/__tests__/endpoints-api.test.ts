@@ -49,7 +49,16 @@ describe("Tests for endpoint api", () => {
     await request(app)
       .post("/gas")
       .set("Authorization", `Bearer ${token}`)
-      .expect(StatusCodes.BAD_REQUEST);
+      .expect(StatusCodes.NOT_ACCEPTABLE);
+  });
+
+  it("Test save new Gas with incorrect UNITS type", async () => {
+    const UNITS = "a";
+    await request(app)
+      .post("/gas")
+      .set("Authorization", `Bearer ${token}`)
+      .send({ units: UNITS })
+      .expect(StatusCodes.NOT_ACCEPTABLE);
   });
 
   it("Test save new Gas with incorrect body request", async () => {
@@ -95,7 +104,7 @@ describe("Tests for endpoint api", () => {
     await request(app)
       .put(`/gas/${gasID}`)
       .set("Authorization", `Bearer ${token}`)
-      .expect(StatusCodes.BAD_REQUEST);
+      .expect(StatusCodes.NOT_ACCEPTABLE);
   });
 
   it("Test gas list", async () => {
@@ -122,6 +131,6 @@ describe("Tests for endpoint api", () => {
     await request(app)
       .get("/gas/10")
       .set("Authorization", `Bearer ${token}`)
-      .expect(StatusCodes.BAD_REQUEST);
+      .expect(StatusCodes.NOT_ACCEPTABLE);
   });
 });

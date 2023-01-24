@@ -1,6 +1,6 @@
 import express, { Application, Request, Response } from "express";
 import path from "path";
-import { restrict } from "../src/auth/auth";
+import { restrict } from "./auth/auth";
 import login from "./auth/login";
 import gasEndpoint from "./endpoints";
 import { StatusCodes } from "http-status-codes";

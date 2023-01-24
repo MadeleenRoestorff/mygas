@@ -1,5 +1,5 @@
 import { dbSetup, dbClear } from "../db/db-methods";
-import Gas from "../models/gas-models";
+import Gas from "../models/gas-model";
 import { describe, beforeEach, afterEach, it, expect } from "@jest/globals";
 
 describe("Tests for gas model", () => {
@@ -11,54 +11,80 @@ describe("Tests for gas model", () => {
     await dbClear();
   });
 
-  it("Test save new Gas", async () => {
+  it("Test create new Gas", async () => {
     const UNITS = 123;
-    const testGas = new Gas({
+    const newGas = await Gas.create({
       units: UNITS
     });
-    const newGasID = await testGas.save();
-    expect(newGasID).toBe(1);
+    expect(newGas.GasLogID).toBe(1);
   });
 
-  it("Test getGasList and save", async () => {
-    const allGasRowsInitial = await Gas.getGasList();
+  it("Test findAll and create", async () => {
+    const allGasRowsInitial = await Gas.findAll();
     expect(allGasRowsInitial.length).toBe(0);
     const UNITS = 123;
-    const testGas = new Gas({
+    await Gas.create({
       units: UNITS
     });
-    await testGas.save();
-    const allGasRowsEnd = await Gas.getGasList();
+    const allGasRowsEnd = await Gas.findAll();
     expect(allGasRowsEnd.length).toBe(1);
     const firstRow = allGasRowsEnd[0];
-    expect(firstRow.getFields().units).toBe(UNITS);
+    expect(firstRow.units).toBe(UNITS);
   });
 
-  it("Test getGasInstance and save", async () => {
+  it("Test getGasInstance and create", async () => {
     const UNITS = 123;
-    const testGas = new Gas({
+    const newGas = await Gas.create({
       units: UNITS
     });
-    const newGasID = await testGas.save();
+    const newGasID = newGas.GasLogID;
     const gasInstance = await Gas.getGasInstance(newGasID);
-    expect(gasInstance.getFields().units).toBe(UNITS);
+    expect(gasInstance.units).toBe(UNITS);
   });
 
-  it("Test save add new, update gas and get gas instance", async () => {
+  it("Test update gas", async () => {
     const UNITS = 123;
-    const testNewGas = new Gas({
+    const newGas = await Gas.create({
       units: UNITS
     });
-    const newGasID = await testNewGas.save();
-    const gasInstanceInitial = await Gas.getGasInstance(newGasID);
-    expect(gasInstanceInitial.getFields().units).toBe(UNITS);
+    const newGasID = newGas.GasLogID;
+    expect(newGas.units).toBe(UNITS);
     const UNITSUPADATE = 321;
-    const testUpdateGas = new Gas({
-      GasLogID: newGasID,
-      units: UNITSUPADATE
-    });
-    await testUpdateGas.save();
+    await Gas.update(
+      { units: UNITSUPADATE },
+      {
+        where: {
+          GasLogID: newGasID
+        }
+      }
+    );
     const gasInstance = await Gas.getGasInstance(newGasID);
-    expect(gasInstance.getFields().units).toBe(UNITSUPADATE);
+    expect(gasInstance.units).toBe(UNITSUPADATE);
+  });
+
+  it("Test if create at date = update date for create gas", async () => {
+    const UNITS = 123;
+    const newGas = await Gas.create({
+      units: UNITS
+    });
+    expect(newGas.createdAt).toBe(newGas.updatedAt);
+  });
+
+  it("Test if create at date > update date for update gas", async () => {
+    const UNITS = 123;
+    const newGas = await Gas.create({
+      units: UNITS
+    });
+    const UNITSUPADATE = 321;
+    await Gas.update(
+      { units: UNITSUPADATE },
+      {
+        where: {
+          GasLogID: newGas.GasLogID
+        }
+      }
+    );
+    const gasInstance = await Gas.getGasInstance(newGas.GasLogID);
+    expect(gasInstance.updatedAt.getTime()).toBeGreaterThan(gasInstance.createdAt.getTime());
   });
 });
