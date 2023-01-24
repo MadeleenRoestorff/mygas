@@ -5,7 +5,7 @@ module.exports = {
   coverageDirectory: "coverage",
   collectCoverage: true,
   collectCoverageFrom: ["./src/**"],
-
+  coverageReporters: ["text-summary"],
   coverageThreshold: {
     global: {
       branches: 0,
