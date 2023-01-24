@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1674569487550" clover="3.2.0">
+  <project timestamp="1674569487550" name="All files">
+    <metrics statements="198" coveredstatements="176" conditionals="72" coveredconditionals="56" methods="47" coveredmethods="37" elements="317" coveredelements="269" complexity="0" loc="198" ncloc="198" packages="5" files="9" classes="9"/>
+    <package name="src">
+      <metrics statements="69" coveredstatements="67" conditionals="11" coveredconditionals="9" methods="17" coveredmethods="16"/>
+      <file name="app.ts" path="/home/madeleen/dev/express/mygas-ts/src/app.ts">
+        <metrics statements="21" coveredstatements="19" conditionals="1" coveredconditionals="0" methods="2" coveredmethods="1"/>
+        <line num="1" count="3" type="stmt"/>
+        <line num="2" count="3" type="stmt"/>
+        <line num="3" count="3" type="stmt"/>
+        <line num="4" count="3" type="stmt"/>
+        <line num="5" count="3" type="stmt"/>
+        <line num="6" count="3" type="stmt"/>
+        <line num="7" count="3" type="stmt"/>
+        <line num="8" count="3" type="stmt"/>
+        <line num="10" count="3" type="stmt"/>
+        <line num="12" count="3" type="stmt"/>
+        <line num="14" count="3" type="stmt"/>
+        <line num="15" count="3" type="stmt"/>
+        <line num="19" count="3" type="stmt"/>
+        <line num="20" count="3" type="stmt"/>
+        <line num="22" count="3" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="27" count="3" type="cond" truecount="0" falsecount="1"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="33" count="3" type="stmt"/>
+      </file>
+      <file name="endpoints.ts" path="/home/madeleen/dev/express/mygas-ts/src/endpoints.ts">
+        <metrics statements="48" coveredstatements="48" conditionals="10" coveredconditionals="9" methods="15" coveredmethods="15"/>
+        <line num="1" count="3" type="stmt"/>
+        <line num="2" count="3" type="stmt"/>
+        <line num="3" count="3" type="stmt"/>
+        <line num="4" count="3" type="stmt"/>
+        <line num="5" count="3" type="stmt"/>
+        <line num="8" count="3" type="stmt"/>
+        <line num="9" count="3" type="stmt"/>
+        <line num="10" count="3" type="stmt"/>
+        <line num="13" count="3" type="stmt"/>
+        <line num="14" count="13" type="stmt"/>
+        <line num="17" count="13" type="stmt"/>
+        <line num="18" count="13" type="stmt"/>
+        <line num="19" count="13" type="stmt"/>
+        <line num="20" count="13" type="stmt"/>
+        <line num="21" count="13" type="stmt"/>
+        <line num="23" count="13" type="stmt"/>
+        <line num="27" count="3" type="stmt"/>
+        <line num="28" count="8" type="cond" truecount="5" falsecount="0"/>
+        <line num="29" count="4" type="stmt"/>
+        <line num="30" count="4" type="stmt"/>
+        <line num="31" count="4" type="stmt"/>
+        <line num="32" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="33" count="3" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="36" count="1" type="stmt"/>
+        <line num="37" count="1" type="stmt"/>
+        <line num="44" count="3" type="stmt"/>
+        <line num="45" count="7" type="stmt"/>
+        <line num="47" count="6" type="stmt"/>
+        <line num="50" count="1" type="stmt"/>
+        <line num="51" count="1" type="stmt"/>
+        <line num="52" count="1" type="stmt"/>
+        <line num="56" count="3" type="stmt"/>
+        <line num="57" count="2" type="stmt"/>
+        <line num="60" count="3" type="stmt"/>
+        <line num="61" count="3" type="stmt"/>
+        <line num="64" count="3" type="stmt"/>
+        <line num="65" count="1" type="stmt"/>
+        <line num="68" count="3" type="stmt"/>
+        <line num="69" count="2" type="stmt"/>
+        <line num="70" count="2" type="stmt"/>
+        <line num="80" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="83" count="1" type="stmt"/>
+        <line num="85" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="86" count="1" type="stmt"/>
+        <line num="87" count="1" type="stmt"/>
+        <line num="88" count="1" type="stmt"/>
+        <line num="92" count="3" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.auth">
+      <metrics statements="63" coveredstatements="50" conditionals="48" coveredconditionals="39" methods="8" coveredmethods="5"/>
+      <file name="auth.ts" path="/home/madeleen/dev/express/mygas-ts/src/auth/auth.ts">
+        <metrics statements="44" coveredstatements="40" conditionals="45" coveredconditionals="39" methods="5" coveredmethods="5"/>
+        <line num="10" count="3" type="stmt"/>
+        <line num="11" count="3" type="stmt"/>
+        <line num="12" count="3" type="stmt"/>
+        <line num="13" count="3" type="stmt"/>
+        <line num="14" count="3" type="stmt"/>
+        <line num="15" count="3" type="stmt"/>
+        <line num="17" count="3" type="stmt"/>
+        <line num="19" count="3" type="stmt"/>
+        <line num="21" count="3" type="stmt"/>
+        <line num="22" count="3" type="stmt"/>
+        <line num="23" count="3" type="stmt"/>
+        <line num="25" count="11" type="stmt"/>
+        <line num="34" count="11" type="stmt"/>
+        <line num="35" count="11" type="cond" truecount="1" falsecount="0"/>
+        <line num="37" count="10" type="stmt"/>
+        <line num="38" count="10" type="stmt"/>
+        <line num="39" count="10" type="stmt"/>
+        <line num="45" count="9" type="stmt"/>
+        <line num="50" count="3" type="stmt"/>
+        <line num="54" count="4" type="stmt"/>
+        <line num="70" count="4" type="stmt"/>
+        <line num="76" count="4" type="cond" truecount="10" falsecount="1"/>
+        <line num="77" count="3" type="cond" truecount="3" falsecount="1"/>
+        <line num="79" count="3" type="cond" truecount="6" falsecount="1"/>
+        <line num="81" count="2" type="stmt"/>
+        <line num="84" count="2" type="stmt"/>
+        <line num="87" count="1" type="stmt"/>
+        <line num="88" count="1" type="stmt"/>
+        <line num="90" count="1" type="stmt"/>
+        <line num="91" count="1" type="stmt"/>
+        <line num="94" count="3" type="stmt"/>
+        <line num="106" count="15" type="stmt"/>
+        <line num="107" count="15" type="cond" truecount="14" falsecount="0"/>
+        <line num="108" count="15" type="cond" truecount="4" falsecount="0"/>
+        <line num="109" count="2" type="stmt"/>
+        <line num="110" count="2" type="stmt"/>
+        <line num="112" count="13" type="stmt"/>
+        <line num="113" count="13" type="stmt"/>
+        <line num="114" count="13" type="cond" truecount="1" falsecount="1"/>
+        <line num="115" count="13" type="stmt"/>
+        <line num="117" count="0" type="stmt"/>
+        <line num="120" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="121" count="0" type="stmt"/>
+        <line num="122" count="0" type="stmt"/>
+      </file>
+      <file name="login.ts" path="/home/madeleen/dev/express/mygas-ts/src/auth/login.ts">
+        <metrics statements="19" coveredstatements="10" conditionals="3" coveredconditionals="0" methods="3" coveredmethods="0"/>
+        <line num="1" count="3" type="stmt"/>
+        <line num="2" count="3" type="stmt"/>
+        <line num="3" count="3" type="stmt"/>
+        <line num="4" count="3" type="stmt"/>
+        <line num="5" count="3" type="stmt"/>
+        <line num="8" count="3" type="stmt"/>
+        <line num="9" count="3" type="stmt"/>
+        <line num="10" count="3" type="stmt"/>
+        <line num="12" count="3" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="17" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="20" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="25" count="0" type="stmt"/>
+        <line num="30" count="3" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.db">
+      <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="4"/>
+      <file name="db-methods.ts" path="/home/madeleen/dev/express/mygas-ts/src/db/db-methods.ts">
+        <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="4"/>
+        <line num="1" count="3" type="stmt"/>
+        <line num="2" count="3" type="stmt"/>
+        <line num="5" count="15" type="stmt"/>
+        <line num="6" count="15" type="stmt"/>
+        <line num="7" count="15" type="stmt"/>
+        <line num="11" count="15" type="stmt"/>
+        <line num="12" count="15" type="stmt"/>
+        <line num="13" count="15" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.models">
+      <metrics statements="53" coveredstatements="47" conditionals="12" coveredconditionals="8" methods="17" coveredmethods="11"/>
+      <file name="gas-model.ts" path="/home/madeleen/dev/express/mygas-ts/src/models/gas-model.ts">
+        <metrics statements="12" coveredstatements="12" conditionals="3" coveredconditionals="2" methods="2" coveredmethods="2"/>
+        <line num="1" count="4" type="stmt"/>
+        <line num="9" count="4" type="stmt"/>
+        <line num="10" count="4" type="stmt"/>
+        <line num="13" count="4" type="cond" truecount="1" falsecount="1"/>
+        <line num="14" count="4" type="stmt"/>
+        <line num="16" count="4" type="stmt"/>
+        <line num="19" count="82" type="stmt"/>
+        <line num="30" count="6" type="stmt"/>
+        <line num="35" count="6" type="cond" truecount="1" falsecount="0"/>
+        <line num="36" count="5" type="stmt"/>
+        <line num="40" count="4" type="stmt"/>
+        <line num="68" count="4" type="stmt"/>
+      </file>
+      <file name="logger-model.ts" path="/home/madeleen/dev/express/mygas-ts/src/models/logger-model.ts">
+        <metrics statements="32" coveredstatements="26" conditionals="7" coveredconditionals="5" methods="14" coveredmethods="8"/>
+        <line num="1" count="4" type="stmt"/>
+        <line num="2" count="4" type="stmt"/>
+        <line num="3" count="4" type="stmt"/>
+        <line num="4" count="4" type="stmt"/>
+        <line num="13" count="4" type="stmt"/>
+        <line num="15" count="206" type="stmt"/>
+        <line num="18" count="89" type="stmt"/>
+        <line num="21" count="91" type="stmt"/>
+        <line num="26" count="4" type="stmt"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="31" count="0" type="stmt"/>
+        <line num="34" count="0" type="stmt"/>
+        <line num="38" count="4" type="cond" truecount="1" falsecount="1"/>
+        <line num="41" count="4" type="stmt"/>
+        <line num="43" count="0" type="stmt"/>
+        <line num="49" count="0" type="stmt"/>
+        <line num="55" count="17" type="stmt"/>
+        <line num="58" count="17" type="cond" truecount="1" falsecount="1"/>
+        <line num="59" count="0" type="stmt"/>
+        <line num="60" count="17" type="cond" truecount="1" falsecount="0"/>
+        <line num="61" count="17" type="stmt"/>
+        <line num="66" count="26" type="stmt"/>
+        <line num="69" count="89" type="stmt"/>
+        <line num="72" count="91" type="stmt"/>
+        <line num="75" count="4" type="stmt"/>
+        <line num="76" count="206" type="stmt"/>
+        <line num="77" count="206" type="stmt"/>
+        <line num="78" count="206" type="cond" truecount="1" falsecount="0"/>
+        <line num="79" count="89" type="stmt"/>
+        <line num="81" count="206" type="cond" truecount="1" falsecount="0"/>
+        <line num="82" count="91" type="stmt"/>
+        <line num="87" count="4" type="stmt"/>
+      </file>
+      <file name="user-model.ts" path="/home/madeleen/dev/express/mygas-ts/src/models/user-model.ts">
+        <metrics statements="9" coveredstatements="9" conditionals="2" coveredconditionals="1" methods="1" coveredmethods="1"/>
+        <line num="1" count="4" type="stmt"/>
+        <line num="9" count="4" type="stmt"/>
+        <line num="10" count="4" type="stmt"/>
+        <line num="12" count="4" type="stmt"/>
+        <line num="13" count="4" type="cond" truecount="1" falsecount="1"/>
+        <line num="15" count="4" type="stmt"/>
+        <line num="18" count="89" type="stmt"/>
+        <line num="31" count="4" type="stmt"/>
+        <line num="64" count="4" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.utils">
+      <metrics statements="5" coveredstatements="4" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <file name="utils.ts" path="/home/madeleen/dev/express/mygas-ts/src/utils/utils.ts">
+        <metrics statements="5" coveredstatements="4" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="3" type="stmt"/>
+        <line num="2" count="3" type="stmt"/>
+        <line num="4" count="3" type="stmt"/>
+        <line num="5" count="3" type="cond" truecount="0" falsecount="1"/>
+        <line num="6" count="0" type="stmt"/>
+      </file>
+    </package>
+  </project>
+</coverage>
