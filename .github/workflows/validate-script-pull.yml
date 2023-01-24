@@ -21,7 +21,7 @@ jobs:
       - run: echo "🍏 This job's status is ${{ job.status }}."
       - run: npm ci
       - run: npm run validate
-      - run: SUMMARY="$(npm run test)"
+      - run: SUMMARY="$(npm run test:coverage -- --coverageReporters="text-summary")"
       - run: echo "$SUMMARY"
       # - run: TOKENS=($SUMMARY)
       # - run: echo "COVERAGE=$(echo ${TOKENS[2]})" >> $GITHUB_ENV
