@@ -13,7 +13,6 @@ jobs:
 
       # basically npm install but only installs from package-lock
       - run: npm ci
-        name: Get Coverage for badge
         run: |
           SUMMARY="$(npm test -- --coverageReporters='text-summary' | tail -2 | head -1)"
           TOKENS=($SUMMARY)
