@@ -23,10 +23,9 @@ describe("Tests for gas model", () => {
     const allGasRowsInitial = await Gas.findAll();
     expect(allGasRowsInitial.length).toBe(0);
     const UNITS = 123;
-    const testGas = new Gas({
+    await Gas.create({
       units: UNITS
     });
-    await testGas.save();
     const allGasRowsEnd = await Gas.findAll();
     expect(allGasRowsEnd.length).toBe(1);
     const firstRow = allGasRowsEnd[0];

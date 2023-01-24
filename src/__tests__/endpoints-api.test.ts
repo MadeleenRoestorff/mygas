@@ -1,6 +1,6 @@
 /* eslint-disable max-statements */
 import { dbSetup, dbClear } from "../db/db-methods";
-import { insertSaltedHashedUserInDB, authenticateUser } from "../auth/auth-copy";
+import { insertSaltedHashedUserInDB, authenticateUser } from "../auth/auth";
 import app from "../app";
 import request from "supertest";
 import { StatusCodes } from "http-status-codes";
@@ -13,7 +13,6 @@ describe("Tests for endpoint api", () => {
     await dbSetup();
     await insertSaltedHashedUserInDB("studio", "ghibli");
     await authenticateUser("studio", "ghibli", (error, authtoken) => {
-      console.log(authtoken);
       token = authtoken;
     });
   });
@@ -40,9 +39,8 @@ describe("Tests for endpoint api", () => {
     await request(app)
       .get("/gas")
       .set("Authorization", `Bearer ${token}`)
-      //   .expect(StatusCodes.OK)
+      .expect(StatusCodes.OK)
       .then((response) => {
-        console.log("response", response.body);
         expect(response.body.length).toBe(1);
       });
   });
@@ -51,7 +49,16 @@ describe("Tests for endpoint api", () => {
     await request(app)
       .post("/gas")
       .set("Authorization", `Bearer ${token}`)
-      .expect(StatusCodes.BAD_REQUEST);
+      .expect(StatusCodes.NOT_ACCEPTABLE);
+  });
+
+  it("Test save new Gas with incorrect UNITS type", async () => {
+    const UNITS = "a";
+    await request(app)
+      .post("/gas")
+      .set("Authorization", `Bearer ${token}`)
+      .send({ units: UNITS })
+      .expect(StatusCodes.NOT_ACCEPTABLE);
   });
 
   it("Test save new Gas with incorrect body request", async () => {
@@ -97,7 +104,7 @@ describe("Tests for endpoint api", () => {
     await request(app)
       .put(`/gas/${gasID}`)
       .set("Authorization", `Bearer ${token}`)
-      .expect(StatusCodes.BAD_REQUEST);
+      .expect(StatusCodes.NOT_ACCEPTABLE);
   });
 
   it("Test gas list", async () => {

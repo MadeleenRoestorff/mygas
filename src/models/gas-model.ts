@@ -9,13 +9,14 @@ import {
 import Logger from "./logger-model";
 import "dotenv/config";
 
+// everything should just break if we can't import env vars
 const dataBase = process.env.DATABASE || "no-db";
 const logger = new Logger();
 
 const sequelize = new Sequelize({
   dialect: "sqlite",
   storage: dataBase,
-  logging: (msg: string) => logger.debug(msg)
+  logging: (msg: string) => logger.error(msg)
 });
 
 class Gas extends Model<InferAttributes<Gas>, InferCreationAttributes<Gas>> {

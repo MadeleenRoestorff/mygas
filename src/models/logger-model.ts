@@ -9,6 +9,7 @@ type LogWriter = {
   error(_txt: string): void;
 };
 
+// Write to console (terminal) -- for tests
 // const ConsoleLogWriter: LogWriter = {
 //   info(txt: string): void {
 //     console.log(txt);
@@ -21,6 +22,7 @@ type LogWriter = {
 //   }
 // };
 
+// Write to txt files -- for development
 const FileLogWriter: LogWriter = {
   info(txt: string): void {
     fs.appendFileSync(path.resolve(process.cwd(), "logs/info.txt"), `${txt} \n`);
@@ -35,6 +37,7 @@ const FileLogWriter: LogWriter = {
 
 const url = process.env.SLACKURL || "";
 
+// Write to slack -- for production
 const SlackLogWriter: LogWriter = {
   info(txt: string): void {
     axios.post(url, JSON.stringify({ text: txt }));
@@ -55,8 +58,8 @@ class Logger {
     if (process.env.NODE_ENV === "dev") {
       this.#logWriter = FileLogWriter;
     } else if (process.env.NODE_ENV === "test") {
-      // this.#logWriter = ConsoleLogWriter;
       this.#logWriter = FileLogWriter;
+      //   this.#logWriter = ConsoleLogWriter;
     }
   }
 

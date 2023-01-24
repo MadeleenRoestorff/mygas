@@ -2,7 +2,7 @@ import { Router, Request, Response } from "express";
 import bodyParser from "body-parser";
 import { StatusCodes } from "http-status-codes";
 import Logger from "../models/logger-model";
-import { authenticateUser } from "./auth-copy";
+import { authenticateUser } from "./auth";
 
 // Middleware
 const router = Router();
