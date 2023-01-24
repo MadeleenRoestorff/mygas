@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1674569487550" clover="3.2.0">
-  <project timestamp="1674569487550" name="All files">
-    <metrics statements="198" coveredstatements="176" conditionals="72" coveredconditionals="56" methods="47" coveredmethods="37" elements="317" coveredelements="269" complexity="0" loc="198" ncloc="198" packages="5" files="9" classes="9"/>
+<coverage generated="1674582885035" clover="3.2.0">
+  <project timestamp="1674582885035" name="All files">
+    <metrics statements="194" coveredstatements="175" conditionals="72" coveredconditionals="56" methods="44" coveredmethods="37" elements="310" coveredelements="268" complexity="0" loc="194" ncloc="194" packages="5" files="9" classes="9"/>
     <package name="src">
       <metrics statements="69" coveredstatements="67" conditionals="11" coveredconditionals="9" methods="17" coveredmethods="16"/>
       <file name="app.ts" path="/home/madeleen/dev/express/mygas-ts/src/app.ts">
@@ -167,7 +167,7 @@
       </file>
     </package>
     <package name="src.models">
-      <metrics statements="53" coveredstatements="47" conditionals="12" coveredconditionals="8" methods="17" coveredmethods="11"/>
+      <metrics statements="49" coveredstatements="46" conditionals="12" coveredconditionals="8" methods="14" coveredmethods="11"/>
       <file name="gas-model.ts" path="/home/madeleen/dev/express/mygas-ts/src/models/gas-model.ts">
         <metrics statements="12" coveredstatements="12" conditionals="3" coveredconditionals="2" methods="2" coveredmethods="2"/>
         <line num="1" count="4" type="stmt"/>
@@ -184,19 +184,15 @@
         <line num="68" count="4" type="stmt"/>
       </file>
       <file name="logger-model.ts" path="/home/madeleen/dev/express/mygas-ts/src/models/logger-model.ts">
-        <metrics statements="32" coveredstatements="26" conditionals="7" coveredconditionals="5" methods="14" coveredmethods="8"/>
+        <metrics statements="28" coveredstatements="25" conditionals="7" coveredconditionals="5" methods="11" coveredmethods="8"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="4" type="stmt"/>
         <line num="3" count="4" type="stmt"/>
         <line num="4" count="4" type="stmt"/>
-        <line num="13" count="4" type="stmt"/>
-        <line num="15" count="206" type="stmt"/>
-        <line num="18" count="89" type="stmt"/>
-        <line num="21" count="91" type="stmt"/>
         <line num="26" count="4" type="stmt"/>
-        <line num="28" count="0" type="stmt"/>
-        <line num="31" count="0" type="stmt"/>
-        <line num="34" count="0" type="stmt"/>
+        <line num="28" count="206" type="stmt"/>
+        <line num="31" count="89" type="stmt"/>
+        <line num="34" count="91" type="stmt"/>
         <line num="38" count="4" type="cond" truecount="1" falsecount="1"/>
         <line num="41" count="4" type="stmt"/>
         <line num="43" count="0" type="stmt"/>
@@ -205,18 +201,18 @@
         <line num="58" count="17" type="cond" truecount="1" falsecount="1"/>
         <line num="59" count="0" type="stmt"/>
         <line num="60" count="17" type="cond" truecount="1" falsecount="0"/>
-        <line num="61" count="17" type="stmt"/>
-        <line num="66" count="26" type="stmt"/>
-        <line num="69" count="89" type="stmt"/>
-        <line num="72" count="91" type="stmt"/>
-        <line num="75" count="4" type="stmt"/>
-        <line num="76" count="206" type="stmt"/>
+        <line num="62" count="17" type="stmt"/>
+        <line num="67" count="26" type="stmt"/>
+        <line num="70" count="89" type="stmt"/>
+        <line num="73" count="91" type="stmt"/>
+        <line num="76" count="4" type="stmt"/>
         <line num="77" count="206" type="stmt"/>
-        <line num="78" count="206" type="cond" truecount="1" falsecount="0"/>
-        <line num="79" count="89" type="stmt"/>
-        <line num="81" count="206" type="cond" truecount="1" falsecount="0"/>
-        <line num="82" count="91" type="stmt"/>
-        <line num="87" count="4" type="stmt"/>
+        <line num="78" count="206" type="stmt"/>
+        <line num="79" count="206" type="cond" truecount="1" falsecount="0"/>
+        <line num="80" count="89" type="stmt"/>
+        <line num="82" count="206" type="cond" truecount="1" falsecount="0"/>
+        <line num="83" count="91" type="stmt"/>
+        <line num="88" count="4" type="stmt"/>
       </file>
       <file name="user-model.ts" path="/home/madeleen/dev/express/mygas-ts/src/models/user-model.ts">
         <metrics statements="9" coveredstatements="9" conditionals="2" coveredconditionals="1" methods="1" coveredmethods="1"/>
