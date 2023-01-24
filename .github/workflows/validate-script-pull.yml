@@ -25,7 +25,8 @@ jobs:
       - run: TOKENS=($SUMMARY)
       - run: echo "COVERAGE=$(echo ${TOKENS[2]})" >> $GITHUB_ENV
       - run: REF=${{ github.ref }}
-      - run: echo "github.ref: $REF"
+      - run:
+          echo "$REF"
           # var PATHS = REF.split('/');
           # IFS='/' read -ra PATHS <<< "$REF"
           # var BRANCH_NAME = PATHS[1] + '_' + PATHS[2];
