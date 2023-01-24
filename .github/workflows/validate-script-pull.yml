@@ -21,17 +21,17 @@ jobs:
       - run: echo "🍏 This job's status is ${{ job.status }}."
       - run: npm ci
       - run: npm run validate
-      - run: SUMMARY="$(npm run test | tail -2 | head -1)"
-      - run: TOKENS=($SUMMARY)
-      - run: echo "COVERAGE=$(echo ${TOKENS[2]})" >> $GITHUB_ENV
-      - run: REF=${{ github.ref }}
-      - run:
-          echo "$REF"
-          # var PATHS = REF.split('/');
-          # IFS='/' read -ra PATHS <<< "$REF"
-          # var BRANCH_NAME = PATHS[1] + '_' + PATHS[2];
-          # BRANCH_NAME="${PATHS[1]}_${PATHS[2]}"
-          # console.log(BRANCH_NAME); // 'pull_27'
-          # echo $BRANCH_NAME
-          # process.env.BRANCH = 'pull_27';
-          # echo "BRANCH=$(echo ${BRANCH_NAME})" >> $GITHUB_ENV
+      - run: SUMMARY="$(npm run test)"
+      # - run: TOKENS=($SUMMARY)
+      # - run: echo "COVERAGE=$(echo ${TOKENS[2]})" >> $GITHUB_ENV
+      # - run: REF=${{ github.ref }}
+      # - run:
+      # echo "$REF"
+      # var PATHS = REF.split('/');
+      # IFS='/' read -ra PATHS <<< "$REF"
+      # var BRANCH_NAME = PATHS[1] + '_' + PATHS[2];
+      # BRANCH_NAME="${PATHS[1]}_${PATHS[2]}"
+      # console.log(BRANCH_NAME); // 'pull_27'
+      # echo $BRANCH_NAME
+      # process.env.BRANCH = 'pull_27';
+      # echo "BRANCH=$(echo ${BRANCH_NAME})" >> $GITHUB_ENV
