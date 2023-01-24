@@ -46,7 +46,7 @@
         "http-status-codes": "^2.2.0",
         "jsonwebtoken": "^8.5.1",
         "sequelize": "^6.28.0",
-        "sqlite3": "^5.1.2"
+        "sqlite3": "^5.1.4"
     },
     "lint": "eslint . ",
     "lint:fix": "eslint --fix",
