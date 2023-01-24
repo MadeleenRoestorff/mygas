@@ -21,22 +21,16 @@ jobs:
       - run: echo "🍏 This job's status is ${{ job.status }}."
       - run: npm ci
       - run: npm run validate
-      - run: |
-          SUMMARY="$(npm test -- --coverageReporters='text-summary' | tail -2 | head -1)"
-          TOKENS=($SUMMARY)
-          # process.env.COVERAGE = '31.93%';
-      - run: |
-          echo "COVERAGE=$(echo ${TOKENS[2]})" >> $GITHUB_ENV
-
-          # var REF = 'refs/pull/27/merge.json';
-          REF=${{ github.ref }}
-          # console.log('github.ref: ' + REF);
-          echo "github.ref: $REF"
+      - run: SUMMARY="$(npm test -- --coverageReporters='text-summary' | tail -2 | head -1)"
+      - run: TOKENS=($SUMMARY)
+      - run: echo "COVERAGE=$(echo ${TOKENS[2]})" >> $GITHUB_ENV
+      - run: REF=${{ github.ref }}
+      - run: echo "github.ref: $REF"
           # var PATHS = REF.split('/');
-          IFS='/' read -ra PATHS <<< "$REF"
+          # IFS='/' read -ra PATHS <<< "$REF"
           # var BRANCH_NAME = PATHS[1] + '_' + PATHS[2];
-          BRANCH_NAME="${PATHS[1]}_${PATHS[2]}"
+          # BRANCH_NAME="${PATHS[1]}_${PATHS[2]}"
           # console.log(BRANCH_NAME); // 'pull_27'
-          echo $BRANCH_NAME
+          # echo $BRANCH_NAME
           # process.env.BRANCH = 'pull_27';
-          echo "BRANCH=$(echo ${BRANCH_NAME})" >> $GITHUB_ENV
+          # echo "BRANCH=$(echo ${BRANCH_NAME})" >> $GITHUB_ENV
