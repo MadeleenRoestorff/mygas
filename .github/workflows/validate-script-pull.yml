@@ -34,7 +34,7 @@ jobs:
           echo $BRANCH_NAME
           echo "BRANCH=$BRANCH_NAME" >> $GITHUB_ENV
           echo $GITHUB_ENV
-      - run: echo ${{ env.COVERAGE }}
+      - run: echo ${{ env.BRANCH }}
       # var PATHS = REF.split('/');
       # IFS='/' read -ra PATHS <<< "$REF"
       # var BRANCH_NAME = PATHS[1] + '_' + PATHS[2];
