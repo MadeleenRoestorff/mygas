@@ -1,0 +1,23 @@
+name: "Gist Write Action"
+description: "The action to write content to a gist"
+inputs:
+  gistID:
+    description: "Gist ID"
+    required: true
+  filename:
+    description: "Name of the file at the gist to write data at"
+    required: true
+  label:
+    description: "The left text of the badge"
+    required: true
+  message:
+    description: "The right text of the badge"
+    required: true
+  color:
+    description: "The right color of the badge"
+    required: false
+runs:
+  using: "npx ts-node"
+  main: "/scripts/coverage-gist-badge.ts"
+branding:
+  color: blue
