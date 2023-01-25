@@ -35,7 +35,7 @@ jobs:
         name: Create the Badge
         uses: MadeleenRoestorff/coverage-gist-badge@main
         with:
-          auth: ${{ secrets.GIST_SECRET }}
+          token: ${{ secrets.GIST_SECRET }}
           gistID: e3835b95ac826635d78b5d047b92b16a
           filename: mygas_${{ env.BRANCH }}.json
           label: Test Coverage
