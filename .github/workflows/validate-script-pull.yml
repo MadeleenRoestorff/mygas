@@ -35,7 +35,7 @@ jobs:
       - run: echo ${{ env.COVERAGE }}
       - if: ${{ env.COVERAGE }}
         name: Create the Badge
-        uses: MadeleenRoestorff/coverage-gist-badge@main
+        uses: MadeleenRoestorff/coverage-gist-badge@v1.0.0
         with:
           gistID: e3835b95ac826635d78b5d047b92b16a
           filename: your-repo-name__${{ env.BRANCH }}.json
