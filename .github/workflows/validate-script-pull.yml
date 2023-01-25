@@ -23,9 +23,8 @@ jobs:
       - run: npm run validate
       - run: |
           SUMMARY="$(npm run test:coverage -- --coverageReporters='text-summary' | tail -2 | head -1)"
-          TOKEN=$SUMMARY
-          COVERAGE=${TOKEN[2]}
-          echo "COVERAGE=$COVERAGE" >> $GITHUB_ENV
+          TOKENS=($SUMMARY)
+          echo "COVERAGE=$(echo ${TOKENS[2]})" >> $GITHUB_ENV
           REF=${{ github.ref }}
           echo "github.ref: $REF"
           IFS='/' read -ra PATHS <<< "$REF"
