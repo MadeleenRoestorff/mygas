@@ -23,10 +23,7 @@ jobs:
       - run: npm run validate
       - run: |
           SUMMARY="$(npm run test:coverage -- --coverageReporters='text-summary' | tail -2 | head -1)"
-          echo $SUMMARY
-          TOKENS=$SUMMARY
-          COVERAGE=${TOKENS[2]}
-          echo "COVERAGE=HELLO" >> $GITHUB_ENV
+          echo "COVERAGE=${SUMMARY[2]}" >> $GITHUB_ENV
           REF=${{ github.ref }}
           echo "github.ref: $REF"
           IFS='/' read -ra PATHS <<< "$REF"
@@ -34,7 +31,7 @@ jobs:
           echo $BRANCH_NAME
           echo "BRANCH=$BRANCH_NAME" >> $GITHUB_ENV
           echo $GITHUB_ENV
-      - run: echo ${{ env.BRANCH }}
+      - run: echo ${{ env.COVERAGE }}
       # var PATHS = REF.split('/');
       # IFS='/' read -ra PATHS <<< "$REF"
       # var BRANCH_NAME = PATHS[1] + '_' + PATHS[2];
