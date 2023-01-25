@@ -31,14 +31,14 @@ jobs:
           BRANCH_NAME="${PATHS[1]}_${PATHS[2]}"
           echo $BRANCH_NAME
           echo "BRANCH=$BRANCH_NAME" >> $GITHUB_ENV
-          echo $GITHUB_ENV
-      - run: echo ${{ env.COVERAGE }}
       - if: ${{ env.COVERAGE }}
         name: Create the Badge
         uses: MadeleenRoestorff/coverage-gist-badge@main
         with:
+          auth: ${{ secrets.GIST_SECRET }}
           gistID: e3835b95ac826635d78b5d047b92b16a
           filename: your-repo-name__${{ env.BRANCH }}.json
           label: Test Coverage
           message: ${{ env.COVERAGE }}
-          color: pink
+          color: green
+          namedLogo: jest
