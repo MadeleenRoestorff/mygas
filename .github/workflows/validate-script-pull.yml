@@ -22,8 +22,7 @@ jobs:
       - run: npm ci
       - run: npm run validate
       - run: |
-          SUMMARY="$(npm run test:coverage -- --coverageReporters='text-summary')"
-          echo $SUMMARY
+          SUMMARY="$(npm run test:coverage -- --coverageReporters='text-summary' | tail -2 | head -1)"
           TOKENS=($SUMMARY)
           echo "COVERAGE=$(echo ${TOKENS[2]})" >> $GITHUB_ENV
       # - run: REF=${{ github.ref }}
