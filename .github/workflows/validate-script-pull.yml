@@ -24,8 +24,8 @@ jobs:
       - run: |
           SUMMARY="$(npm run test:coverage -- --coverageReporters='text-summary')"
           echo $SUMMARY
-      # - run: TOKENS=($SUMMARY)
-      # - run: echo "COVERAGE=$(echo ${TOKENS[2]})" >> $GITHUB_ENV
+          TOKENS=($SUMMARY)
+          echo "COVERAGE=$(echo ${TOKENS[2]})" >> $GITHUB_ENV
       # - run: REF=${{ github.ref }}
       # - run:
       # echo "$REF"
