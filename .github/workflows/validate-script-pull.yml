@@ -35,7 +35,7 @@ jobs:
       - run: echo ${{ env.COVERAGE }}
       - if: ${{ env.COVERAGE }}
         name: Create the Badge
-        uses: MadeleenRoestorff/mygas/scripts/action.yml@GAS-20-test-coverage-reports
+        uses: MadeleenRoestorff/mygas/scripts@GAS-20-test-coverage-reports
         with:
           gistID: e3835b95ac826635d78b5d047b92b16a
           filename: your-repo-name__${{ env.BRANCH }}.json
