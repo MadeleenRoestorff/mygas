@@ -25,13 +25,14 @@ jobs:
           SUMMARY="$(npm run test:coverage -- --coverageReporters='text-summary' | tail -2 | head -1)"
           echo $SUMMARY
           TOKENS=$SUMMARY
-          echo "COVERAGE=${TOKENS[2]}" >> $GITHUB_ENV
+          COVERAGE=${TOKENS[2]}
+          echo "COVERAGE=$COVERAGE" >> $GITHUB_ENV
           REF=${{ github.ref }}
           echo "github.ref: $REF"
           IFS='/' read -ra PATHS <<< "$REF"
           BRANCH_NAME="${PATHS[1]}_${PATHS[2]}"
           echo $BRANCH_NAME
-          echo "BRANCH=${BRANCH_NAME}" >> $GITHUB_ENV
+          echo "BRANCH=$BRANCH_NAME" >> $GITHUB_ENV
           echo ${{ env.COVERAGE }}
           echo $GITHUB_ENV
       # var PATHS = REF.split('/');
