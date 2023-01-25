@@ -17,7 +17,7 @@ inputs:
     description: "The right color of the badge"
     required: false
 runs:
-  using: "npx ts-node"
-  main: "/scripts/coverage-gist-badge.ts"
+  using: "node12"
+  main: "/scripts/coverage-gist-badge.js"
 branding:
   color: blue
