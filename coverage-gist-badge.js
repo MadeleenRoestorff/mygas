@@ -4,12 +4,14 @@ const core = require("@actions/core");
 // const axios = require("axios");
 // import axios from "axios";
 
-// const config = {
-//   headers: {
-//     "Content-Type": "application/json",
-//     Authorization: `token ${core.getInput("auth")}`
-//   }
-// };
+const config = {
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: `token ${core.getInput("auth")}`
+  }
+};
+
+console.log(config);
 
 const content = {
   schemaVersion: 1,
