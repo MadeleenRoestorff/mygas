@@ -37,7 +37,7 @@ jobs:
         with:
           auth: ${{ secrets.GIST_SECRET }}
           gistID: e3835b95ac826635d78b5d047b92b16a
-          filename: boom1.json
+          filename: mygas_${{ env.BRANCH }}.json
           label: Test Coverage
           message: ${{ env.COVERAGE }}
           color: green
