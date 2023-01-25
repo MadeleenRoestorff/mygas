@@ -17,7 +17,7 @@ inputs:
     description: "The right color of the badge"
     required: false
 runs:
-  using: "node12"
-  main: "/scripts/coverage-gist-badge.js"
+  using: "node16"
+  main: "/MadeleenRoestorff/mygas/tree/GAS-20-test-coverage-reports/scripts/coverage-gist-badge.js"
 branding:
   color: blue
