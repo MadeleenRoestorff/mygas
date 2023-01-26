@@ -40,5 +40,4 @@ jobs:
           filename: mygas_${{ env.BRANCH }}.json
           label: Test Coverage
           message: ${{ env.COVERAGE }}
-          color: pink
           namedLogo: jest
