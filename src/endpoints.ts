@@ -23,18 +23,15 @@ router.use((req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-// Check that request body is present and if units is a number
+// Check if units or topup is a number
+// Atleast one should be in the request body
 const bodyCheck = (req: Request, res: Response, next: NextFunction) => {
-  if (!req.body || Object.keys(req.body).length === 0 || !req.body.units) {
-    logger.error("No Request Body Sent");
-    res.status(StatusCodes.NOT_ACCEPTABLE);
-    res.json("No Request Body Sent");
-  } else if (typeof req.body.units === "number") {
+  if (typeof req.body.units === "number" || typeof req.body.topup === "number") {
     next();
   } else {
-    logger.error("Incorrect gas Units");
+    logger.error("Incorrect gas request Body");
     res.status(StatusCodes.NOT_ACCEPTABLE);
-    res.json("Incorrect gas Units");
+    res.json("Incorrect gas request Body");
   }
 };
 
@@ -62,19 +59,18 @@ router.get("/", (req: Request, res: Response) => {
 });
 
 router.post("/", bodyCheck, (req: Request, res: Response) => {
-  gasMethodRunner(res, () => Gas.create({ units: req.body.units }));
+  if (!req.body.topup && req.body.units) req.body.topup = 0;
+  if (!req.body.units && req.body.topup) req.body.units = 0;
+  gasMethodRunner(res, () => Gas.create(req.body));
 });
 
 router.put("/:id(\\d+)", bodyCheck, async (req: Request, res: Response) => {
   try {
-    const updateResult = await Gas.update(
-      { units: req.body.units },
-      {
-        where: {
-          GasLogID: Number(req.params.id)
-        }
+    const updateResult = await Gas.update(req.body, {
+      where: {
+        GasLogID: Number(req.params.id)
       }
-    );
+    });
     // update returns 0 if update method did not make any changes
     // Assume it is because it cannot find the ID
     if (updateResult[0] === 0) throw Error("Cannot find ID");

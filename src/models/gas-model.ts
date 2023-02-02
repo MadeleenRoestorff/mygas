@@ -22,6 +22,7 @@ const sequelize = new Sequelize({
 class Gas extends Model<InferAttributes<Gas>, InferCreationAttributes<Gas>> {
   declare GasLogID: CreationOptional<number>;
   declare units: number;
+  declare topup: number;
   declare uuid: CreationOptional<string>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
@@ -45,6 +46,14 @@ Gas.init(
       primaryKey: true
     },
     units: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+      validate: {
+        isNumeric: true,
+        min: 0
+      }
+    },
+    topup: {
       type: DataTypes.FLOAT,
       allowNull: false,
       validate: {
