@@ -21,6 +21,7 @@ router.post("/", async (req: Request, res: Response) => {
       logger.info(`${req.body.username} successfully Logged in`);
       res.json(token);
     } else {
+      logger.error(`${req.body.username} could not login`);
       res.status(StatusCodes.UNAUTHORIZED);
       res.json(null);
     }
