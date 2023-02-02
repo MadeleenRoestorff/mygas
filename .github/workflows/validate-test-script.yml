@@ -1,4 +1,4 @@
-name: Validate Script on pull request
+name: Validate Code and Run Test Coverage on push and pull request
 run-name: ${{ github.actor }} is testing Gas 🚀
 on: [push, pull_request]
 jobs:
@@ -18,11 +18,11 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
       - run: npm ci
       - run: npm run validate
-      - run: |
-          SUMMARY="$(npm run test:coverage -- --coverageReporters='text-summary' | tail -2 | head -1)"
+      - name: Calculate Test Coverage
+        run: |
+          SUMMARY="$(npm run test -- --coverage --coverageReporters='text-summary' | tail -2 | head -1)"
           TOKENS=($SUMMARY)
           echo "COVERAGE=$(echo ${TOKENS[2]})" >> $GITHUB_ENV
           REF=${{ github.ref }}
@@ -31,8 +31,9 @@ jobs:
           BRANCH_NAME="${PATHS[1]}_${PATHS[2]}"
           echo $BRANCH_NAME
           echo "BRANCH=$BRANCH_NAME" >> $GITHUB_ENV
-      - if: ${{ env.COVERAGE }}
+      - if: ${{ env.COVERAGE && github.ref == 'refs/heads/main' }}
         name: Create the Badge
+        id: gist
         uses: MadeleenRoestorff/coverage-gist-badge@main
         with:
           auth: ${{ secrets.GIST_SECRET }}
@@ -41,3 +42,4 @@ jobs:
           label: Test Coverage
           message: ${{ env.COVERAGE }}
           namedLogo: jest
+      - run: echo ${{ steps.gist.outputs.content }}
