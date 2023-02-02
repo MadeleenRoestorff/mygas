@@ -1,7 +1,7 @@
 // import { insertSaltedHashedUserInDB } from "../src/auth/auth";
 // import { authenticateUser } from "../src/auth/auth";
 import { dbSetup } from "../src/db/db-methods";
-import { insertSaltedHashedUserInDB, authenticateUser } from "../src/auth/auth-copy";
+import { insertSaltedHashedUserInDB, authenticateUser } from "../src/auth/auth";
 
 dbSetup().then(async () => {
   await insertSaltedHashedUserInDB("studio", "ghibli");
