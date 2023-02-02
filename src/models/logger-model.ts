@@ -10,17 +10,17 @@ type LogWriter = {
 };
 
 // Write to console (terminal) -- for tests
-const ConsoleLogWriter: LogWriter = {
-  info(txt: string): void {
-    console.log(txt);
-  },
-  debug(txt: string): void {
-    console.warn(txt);
-  },
-  error(txt: string): void {
-    console.error(txt);
-  }
-};
+// const ConsoleLogWriter: LogWriter = {
+//   info(txt: string): void {
+//     console.log(txt);
+//   },
+//   debug(txt: string): void {
+//     console.warn(txt);
+//   },
+//   error(txt: string): void {
+//     console.error(txt);
+//   }
+// };
 
 // Write to txt files -- for development
 const FileLogWriter: LogWriter = {
@@ -58,7 +58,8 @@ class Logger {
     if (process.env.NODE_ENV === "dev") {
       this.#logWriter = FileLogWriter;
     } else if (process.env.NODE_ENV === "test") {
-      this.#logWriter = ConsoleLogWriter;
+      //   this.#logWriter = ConsoleLogWriter;
+      this.#logWriter = FileLogWriter;
     }
   }
 

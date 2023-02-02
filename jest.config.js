@@ -3,9 +3,9 @@ module.exports = {
   preset: "ts-jest",
   testEnvironment: "node",
   coverageDirectory: "coverage",
-  collectCoverage: true,
+  //   collectCoverage: true,
   collectCoverageFrom: ["./src/**"],
-
+  coverageReporters: ["text-summary"],
   coverageThreshold: {
     global: {
       branches: 0,
