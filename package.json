@@ -18,6 +18,7 @@
     "license": "ISC",
     "devDependencies": {
         "@jest/globals": "^29.3.1",
+        "@types/cors": "^2.8.13",
         "@types/express": "^4.17.14",
         "@types/jsonwebtoken": "^8.5.9",
         "@types/node": "^18.11.11",
@@ -40,6 +41,7 @@
     },
     "dependencies": {
         "axios": "^1.2.1",
+        "cors": "^2.8.5",
         "dotenv": "^16.0.3",
         "ejs": "^3.1.8",
         "express": "^4.18.2",

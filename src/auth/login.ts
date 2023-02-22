@@ -25,6 +25,10 @@ router.post("/", async (req: Request, res: Response) => {
       res.status(StatusCodes.UNAUTHORIZED);
       res.json(null);
     }
+  }).catch((error) => {
+    logger.error(error.message);
+    res.status(StatusCodes.UNAUTHORIZED);
+    res.json(null);
   });
 });
 

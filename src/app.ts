@@ -1,5 +1,5 @@
 import express, { Application, Request, Response } from "express";
-import path from "path";
+import cors from "cors";
 import { restrict } from "./auth/auth";
 import login from "./auth/login";
 import gasEndpoint from "./endpoints";
@@ -10,10 +10,7 @@ import { createLogsDirIf } from "./utils/utils";
 createLogsDirIf();
 
 const app: Application = express();
-
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
-
+app.use(cors());
 // middleware
 
 app.use("/login", login);

@@ -36,4 +36,14 @@ describe("Tests for endpoint api", () => {
         expect(response.body).toBe(null);
       });
   });
+
+  it("FAILURE: Test No username sent", async () => {
+    await request(app)
+      .post("/login")
+      .send({ password: "" })
+      .expect(StatusCodes.UNAUTHORIZED)
+      .then((response) => {
+        expect(response.body).toBe(null);
+      });
+  });
 });
