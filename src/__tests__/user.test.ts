@@ -62,7 +62,10 @@ describe("Tests for user authentication", () => {
   });
 
   it("Test gas list with incorrect token", async () => {
-    await request(app).get("/gas").set("Authorization", "Bearer ").expect(StatusCodes.UNAUTHORIZED);
+    await request(app)
+      .get("/gas")
+      .set("Authorization", "Bearer ")
+      .expect(StatusCodes.UNAUTHORIZED);
   });
 
   it("Test gas list with no Authorization Header", async () => {
