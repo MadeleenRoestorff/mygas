@@ -90,10 +90,10 @@ The scripts and documentation in this project are released under the [MIT Licens
 ## Tech Stack
 
 - Node.js
+- TypeScript
 - ExpressJS
 - SQLite3
 - Sequelize ORM
-- TypeScript
 - Jest with supertest
 - ESLint
 - Prettier
@@ -103,10 +103,10 @@ The scripts and documentation in this project are released under the [MIT Licens
 ### Notes
 
 If you want skip the husky validate (ESlint and prettier) hook use --no-verify
-git commit -m "yolo!" --no-verify
+git commit -m "yolo!" --no-verify.
 Run npm test to ensure that your changes pass all tests.
 
 ## Acknowledgements
 
-- ChatGPT for helping me to write this readme
-- [Mintlify](https://marketplace.visualstudio.com/items?itemname=mintlify.document) for helping me write code comments
+- ChatGPT for helping me write this readme.
+- [Mintlify](https://marketplace.visualstudio.com/items?itemname=mintlify.document) for helping me write code comments.
