@@ -22,20 +22,28 @@ const iterations = 99999;
 const keyLen = 64;
 const digest = "sha256";
 
-export const insertSaltedHashedUserInDB = async (name: string, password: string) => {
-  /**
-   * Inserts a user into the DB.
-   * Passwords are hashed and salted
-   *
-   * @param {string} name: user name
-   * @param {string} password: user password
-   */
-
+/**
+ * It takes a username and password, creates a random salt, hashes the password with the salt, and then
+ * inserts the username, salt, and hashed password into the database
+ * @param {string} name - the username of the user
+ * @param {string} password - the password that the user entered
+ * @returns A new user object
+ */
+export const insertSaltedHashedUserInDB = async (
+  name: string,
+  password: string
+) => {
   const psLen = 6;
   if (password.length < psLen) throw Error("Password require 6 characters");
 
   const salted = crypto.randomBytes(keyLen).toString("base64");
-  const hashBuffer = crypto.pbkdf2Sync(password, salted, iterations, keyLen, digest);
+  const hashBuffer = crypto.pbkdf2Sync(
+    password,
+    salted,
+    iterations,
+    keyLen,
+    digest
+  );
   const newUser = await User.create({
     username: name,
     salt: salted,
@@ -47,26 +55,23 @@ export const insertSaltedHashedUserInDB = async (name: string, password: string)
 
 type ErrorTokenCallback = (_error: Error | null, _token: string | null) => void;
 
+/**
+ * It takes a username and password, queries the database for the user's salt and hash.
+ * Calcultates  anew hash from password and salt using NODE crypto, then compares
+ * the nw calculated hash with the hash in the database. If they match, it generates a
+ * token and returns it
+ * @param {string} name - the username of the user
+ * @param {string} password - the password the user entered
+ * @param {ErrorTokenCallback} errToken - callback with error or token
+ * @returns A function that takes in a name, password, and errToken.
+ */
+
 export const authenticateUser = async (
   name: string,
   password: string,
   errToken: ErrorTokenCallback
 ): Promise<void> => {
-  /**
-   * Authenticate User with username and password.
-   * Retrieve user salt and hash from user DB using username
-   *
-   * Calcultate new hash from password and salt using NODE crypto
-   * Compare DB hash with calculated hash
-   * if authenicated resolve token
-   *
-   * @param {string} name: user name
-   * @param {string} password: user password
-   * @param {ErrorTokenCallback} errToken: callback with error or token
-   */
-
   // query the db for the given username
-
   const userSaltHash = await User.findOne({
     where: {
       username: name
@@ -74,7 +79,13 @@ export const authenticateUser = async (
   });
 
   if (userSaltHash?.salt && userSaltHash?.hash) {
-    const hashBuffer = crypto.pbkdf2Sync(password, userSaltHash?.salt, iterations, keyLen, digest);
+    const hashBuffer = crypto.pbkdf2Sync(
+      password,
+      userSaltHash?.salt,
+      iterations,
+      keyLen,
+      digest
+    );
 
     if (hashBuffer.toString("base64") === userSaltHash?.hash && secret) {
       // generate token
@@ -91,18 +102,25 @@ export const authenticateUser = async (
   return errToken(new Error(`Cannot find Username: ${name}`), null);
 };
 
-export const restrict = (req: Request, res: Response, next: NextFunction): void => {
-  /**
-   * Restrict content
-   * Restrict is a type of middleware that requires
-   * verification before content can be accessed
-   * Token in request header is extracted
-   * and verified with jwt verify function
-   *
-   * @param {Request} req: request
-   * @param {Response} res: response
-   * @param {NextFunction} next: next
-   */
+/**
+ * Restrict content
+ * Restrict is a type of middleware that requires
+ * verification before content can be accessed
+ * Token in request header is extracted
+ * and verified with jwt verify function.
+ * If the token is valid, then call the next
+ * function in the middleware chain. Otherwise,
+ * return a 401 Unauthorized response
+ * @param {Request} req - Request - The request object
+ * @param {Response} res - Response - the response object
+ * @param {NextFunction} next - This is a function that you call when you want to pass control to the
+ * next middleware function in the stack.
+ */
+export const restrict = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void => {
   const authHeader = req.headers.authorization;
   const token: string | null = authHeader?.split?.(" ")?.[1] || null;
   if (!token || !secret) {
@@ -117,7 +135,9 @@ export const restrict = (req: Request, res: Response, next: NextFunction): void 
         throw new Error("Verification failed");
       }
     } catch (error) {
-      logger.error(error instanceof Error ? error.message : "Verification failed");
+      logger.error(
+        error instanceof Error ? error.message : "Verification failed"
+      );
       res.status(StatusCodes.UNAUTHORIZED);
       res.json(null);
     }

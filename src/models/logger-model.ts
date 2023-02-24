@@ -25,13 +25,22 @@ type LogWriter = {
 // Write to txt files -- for development
 const FileLogWriter: LogWriter = {
   info(txt: string): void {
-    fs.appendFileSync(path.resolve(process.cwd(), "logs/info.txt"), `${txt} \n`);
+    fs.appendFileSync(
+      path.resolve(process.cwd(), "logs/info.txt"),
+      `${txt} \n`
+    );
   },
   debug(txt: string): void {
-    fs.appendFileSync(path.resolve(process.cwd(), "logs/debug.txt"), `${txt} \n`);
+    fs.appendFileSync(
+      path.resolve(process.cwd(), "logs/debug.txt"),
+      `${txt} \n`
+    );
   },
   error(txt: string): void {
-    fs.appendFileSync(path.resolve(process.cwd(), "logs/error.txt"), `${txt} \n`);
+    fs.appendFileSync(
+      path.resolve(process.cwd(), "logs/error.txt"),
+      `${txt} \n`
+    );
   }
 };
 

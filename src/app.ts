@@ -2,7 +2,8 @@ import express, { Application, Request, Response } from "express";
 import cors from "cors";
 import { restrict } from "./auth/auth";
 import login from "./auth/login";
-import gasEndpoint from "./endpoints";
+import gasEndpoint from "./endpoints/gas-endpoints";
+import elecEndpoint from "./endpoints/electricity-endpoints";
 import { StatusCodes } from "http-status-codes";
 import "dotenv/config";
 import { createLogsDirIf } from "./utils/utils";
@@ -15,6 +16,7 @@ app.use(cors());
 
 app.use("/login", login);
 app.use("/gas", restrict, gasEndpoint);
+app.use("/electricity", restrict, elecEndpoint);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("hello");

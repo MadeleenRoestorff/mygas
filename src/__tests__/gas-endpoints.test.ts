@@ -32,6 +32,7 @@ describe("Tests for endpoint api", () => {
         expect(response.body.units).toBe(UNITS);
         expect(response.body.GasLogID).toBe(1);
         expect(response.body.topup).toBe(0);
+        expect(response.body.measuredAt).toBeTruthy();
         gasID = response.body.GasLogID;
       });
   });
@@ -72,6 +73,15 @@ describe("Tests for endpoint api", () => {
       .expect(StatusCodes.NOT_ACCEPTABLE);
   });
 
+  it("FAILURE: Test save new Gas with only MEASUREDAT", async () => {
+    const MEASUREDAT = new Date().toISOString();
+    await request(app)
+      .post("/gas")
+      .set("Authorization", `Bearer ${token}`)
+      .send({ measuredAt: MEASUREDAT })
+      .expect(StatusCodes.NOT_ACCEPTABLE);
+  });
+
   it("FAILURE: Test save new Gas with incorrect body request", async () => {
     const UNITS = 123;
     await request(app)
@@ -102,6 +112,18 @@ describe("Tests for endpoint api", () => {
       .expect(StatusCodes.OK)
       .then((response) => {
         expect(response.body.topup).toBe(TOPUP);
+      });
+  });
+
+  it("SUCCESS: Test Update Gas with only MEASUREDAT", async () => {
+    const MEASUREDAT = new Date().toISOString();
+    await request(app)
+      .put(`/gas/${gasID}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send({ measuredAt: MEASUREDAT })
+      .expect(StatusCodes.OK)
+      .then((response) => {
+        expect(response.body.measuredAt).toBe(MEASUREDAT);
       });
   });
 
@@ -157,7 +179,7 @@ describe("Tests for endpoint api", () => {
       .expect(StatusCodes.NOT_ACCEPTABLE);
   });
 
-  it("Test save new Gas, with TOPUP", async () => {
+  it("SUCCESS: Test save new Gas, with TOPUP", async () => {
     const TOPUP = 50;
     await request(app)
       .post("/gas")
@@ -169,17 +191,19 @@ describe("Tests for endpoint api", () => {
         expect(response.body.units).toBe(0);
       });
   });
-  it("Test save new Gas, with TOPUP and UNITS", async () => {
+  it("SUCCESS: Test save new Gas, with TOPUP and UNITS", async () => {
     const TOPUP = 50;
     const UNITS = 777;
+    const MEASUREDAT = new Date().toISOString();
     await request(app)
       .post("/gas")
       .set("Authorization", `Bearer ${token}`)
-      .send({ topup: TOPUP, units: UNITS })
+      .send({ topup: TOPUP, units: UNITS, measuredAt: MEASUREDAT })
       .expect(StatusCodes.OK)
       .then((response) => {
         expect(response.body.topup).toBe(TOPUP);
         expect(response.body.units).toBe(UNITS);
+        expect(response.body.measuredAt).toBe(MEASUREDAT);
       });
   });
 });

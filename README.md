@@ -1,8 +1,112 @@
-# mygas
-
-My Gas Express Server
+# My Utilities
 
 ![Coverage Badges](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/MadeleenRoestorff/e3835b95ac826635d78b5d047b92b16a/raw/c238dd7b1952b49e0d8d3f8c774d338b30a4f9b0/mygas_heads_main.json)
+[![ESLinter Badges](https://img.shields.io/badge/Linter-ESlint-4B32C3?logo=ESLint)](https://eslint.org/docs/latest/rules/)
+[![Prettier Badges](https://img.shields.io/badge/Formater-Prettier-F7B93E?logo=Prettier)](https://prettier.io/docs/en/precommit.html)
+[![license](https://img.shields.io/badge/License-MIT-F0047F.svg)](LICENSE)
+[![GitHub Workflow Status (with branch)](https://img.shields.io/github/actions/workflow/status/MadeleenRoestorff/mygas/validate-test-script.yml)](https://github.com/MadeleenRoestorff/mygas/actions)
+
+This repository contains the server-side code for My Utilities, a simple web app that helps you keep track of your utilities. The frontend code is located in a separate repository. The backend is built with ExpressJS and written in TypeScript, and uses the Sequelize ORM to map to a SQLite database. ExpressJS is used for creating the API endpoints. Jest is used for testing, and ESLint and Prettier are used for formatting.
+
+## Installation
+
+To install My Utilities, clone the repository and install the dependencies using npm:
+
+```bash
+git clone https://github.com/MadeleenRoestorff/mygas.git
+cd mygas
+npm install
+```
+
+## Usage Steps
+
+To run the app during development, use the following command:
+
+```bash
+npm run dev
+```
+
+This will compile the TypeScript code to JavaScript and start the server on http://localhost:3000 using nodemon.
+
+If you prefer to run the distributed JavaScript code directly, use the following command:
+
+```bash
+npm start
+```
+
+This will start the server using the pre-compiled (npm run build) JavaScript files.
+
+## API Endpoints
+
+My Utilities includes several API endpoints that allow you to manage your utility usage. Some of these endpoints are restricted and require authentication. To access these endpoints, you must have a user account and obtain a JSON Web Token (JWT).
+
+### Authentication
+
+New user accounts are created manually.
+To log in, send a POST request to the /login endpoint with a JSON payload containing your username and password. This will return a JWT that you can use to authenticate future requests.
+
+### Utility Usage
+
+Once you have obtained a JWT, you can use it to access the restricted utility usage endpoints. These endpoints allow you to create, read, update, and delete utility usage records.
+
+### API Reference
+
+| Route              | HTTP Method | Request Parameters                         | Response Type                           | Description                                 |
+| :----------------- | :---------- | :----------------------------------------- | :-------------------------------------- | ------------------------------------------- |
+| `/login`           | `POST`      | username, password                         | token                                   | Logs a user in and returns a JSON web token |
+| `/gas`             | `GET`       | -                                          | Array of Gas Record Objects             | Retrieves all gas records                   |
+| `/gas`             | `POST`      | units, topup, measuredAt                   | The new Gas Record Object               | Adds a new gas record                       |
+| `/gas/:id`         | `GET`       | id (in URL path)                           | The requested Gas Record Object         | Retrieves a single gas record by ID         |
+| `/gas/:id`         | `PUT`       | units, topup, measuredAt, id (in URL path) | The updated Gas Record Object           | Updates a single gas record by ID           |
+| `/electricity`     | `GET`       | -                                          | Array of Electricity Record Objects     | Retrieves all electricity records           |
+| `/electricity`     | `POST`      | electricity, measuredAt                    | The new Electricity Record Object       | Adds a new electricity record               |
+| `/electricity/:id` | `GET`       | id (in URL path)                           | The requested Electricity Record Object | Retrieves a single electricity record by ID |
+| `/electricity/:id` | `PUT`       | electricity, measuredAt, id (in URL path)  | The updated Electricity Record Object   | Updates a single electricity record by ID   |
+
+### Request and Response parameters definitions
+
+| Parameter     | Type          | Required                | Description                                                                         |
+| :------------ | :------------ | :---------------------- | :---------------------------------------------------------------------------------- |
+| `username`    | `string`      | Yes                     | The username of the user                                                            |
+| `password`    | `string`      | Yes                     | The password of the user                                                            |
+| `token`       | `string`      | -                       | The authentication token                                                            |
+| `id`          | `number`      | Yes for `PUT` or `:/id` | This ID refers to GasLogID or ElecLogID of the utility that is requested or updated |
+| `units`       | `number`      | `units` or `topup`      | The gas units that are left on the gas meter                                        |
+| `topup`       | `number`      | `topup` or `units`      | The cost of the newly added gas units                                               |
+| `measuredAt`  | `Date string` | Optional                | If the measurements were taken at a earlier date, provide measurement date          |
+| `GasLogID`    | `number`      | -                       | The ID of the Gas record                                                            |
+| `createdAt`   | `Date`        | -                       | The date when the record was created in the database                                |
+| `updatedAt`   | `Date`        | -                       | The date when the record was updated in the database                                |
+| `uuid`        | `string`      | -                       | The unique identifier for record                                                    |
+| `electricity` | `number`      | Yes                     | The electricity meter reading                                                       |
+| `ElecLogID`   | `number`      | -                       | The ID of the Electricity record                                                    |
+
+Note: The GasLogID, ElecLogID, uuid, createdAt, and updatedAt parameters are automatically generated by the Sequelize ORM and do not need to be provided in the request.
+
+## License
+
+The scripts and documentation in this project are released under the [MIT License](LICENSE)
+
+## Tech Stack
+
+- Node.js
+- ExpressJS
+- SQLite3
+- Sequelize ORM
+- TypeScript
+- Jest with supertest
+- ESLint
+- Prettier
+- nodemon
+- Husky
+
+### Notes
 
 If you want skip the husky validate (ESlint and prettier) hook use --no-verify
 git commit -m "yolo!" --no-verify
+Run npm test to ensure that your changes pass all tests.
+
+## Acknowledgements
+
+- ChatGPT for helping me to write this readme
+- [Mintlify](https://marketplace.visualstudio.com/items?itemname=mintlify.document) for helping me write code comments

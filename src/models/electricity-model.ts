@@ -19,42 +19,36 @@ const sequelize = new Sequelize({
   logging: (msg: string) => logger.error(msg)
 });
 
-class Gas extends Model<InferAttributes<Gas>, InferCreationAttributes<Gas>> {
-  declare GasLogID: CreationOptional<number>;
-  declare units: number;
-  declare topup: number;
+class Electricity extends Model<
+  InferAttributes<Electricity>,
+  InferCreationAttributes<Electricity>
+> {
+  declare ElecLogID: CreationOptional<number>;
+  declare electricity: number;
   declare uuid: CreationOptional<string>;
   declare measuredAt: Date;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
-  static async getGasInstance(gasId: number) {
-    const gasInstance = await Gas.findOne({
+  static async getElecInstance(elecId: number) {
+    const elecInstance = await Electricity.findOne({
       where: {
-        GasLogID: gasId
+        ElecLogID: elecId
       }
     });
-    if (gasInstance === null) throw Error("Cannot find ID");
-    return gasInstance;
+    if (elecInstance === null) throw Error("Cannot find ID");
+    return elecInstance;
   }
 }
 
-Gas.init(
+Electricity.init(
   {
-    GasLogID: {
+    ElecLogID: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
-    units: {
-      type: DataTypes.FLOAT,
-      allowNull: false,
-      validate: {
-        isNumeric: true,
-        min: 0
-      }
-    },
-    topup: {
+    electricity: {
       type: DataTypes.FLOAT,
       allowNull: false,
       validate: {
@@ -78,8 +72,8 @@ Gas.init(
   },
   {
     sequelize,
-    modelName: "Gas"
+    modelName: "Electricity"
   }
 );
 
-export default Gas;
+export default Electricity;
