@@ -43,7 +43,7 @@ typings/
 .env
 
 # Typescript build / generate output
-dist/
+
 
 # Test database
 test.db

@@ -16,7 +16,7 @@ const logger = new Logger();
 const sequelize = new Sequelize({
   dialect: "sqlite",
   storage: dataBase,
-  logging: (msg: string) => logger.info(msg)
+  logging: (msg: string) => logger.error(msg)
 });
 
 class Gas extends Model<InferAttributes<Gas>, InferCreationAttributes<Gas>> {

@@ -15,7 +15,7 @@ const dataBase = process.env.DATABASE || "no-db";
 const sequelize = new Sequelize({
   dialect: "sqlite",
   storage: dataBase,
-  logging: (msg: string) => logger.info(msg)
+  logging: (msg: string) => logger.error(msg)
 });
 
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
