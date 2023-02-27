@@ -12,9 +12,7 @@ import Logger from "./logger-model";
 const logger = new Logger();
 const dataBase = process.env.DATABASE || "no-db";
 
-const sequelize = new Sequelize({
-  dialect: "sqlite",
-  storage: dataBase,
+const sequelize = new Sequelize(dataBase, {
   logging: (msg: string) => logger.error(msg)
 });
 

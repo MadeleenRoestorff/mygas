@@ -10,12 +10,10 @@ import Logger from "./logger-model";
 import "dotenv/config";
 
 // everything should just break if we can't import env vars
-const dataBase = process.env.DATABASE || "no-db";
+const dataBase = process.env.DATABASE || "sqlite:gas.db";
 const logger = new Logger();
 
-const sequelize = new Sequelize({
-  dialect: "sqlite",
-  storage: dataBase,
+const sequelize = new Sequelize(dataBase, {
   logging: (msg: string) => logger.error(msg)
 });
 
