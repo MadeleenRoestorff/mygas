@@ -36,6 +36,25 @@ npm start
 
 This will start the server using the pre-compiled (npm run build) JavaScript files.
 
+## Logger
+
+This project includes a custom logger class that can be used to log various events in the application. The logger can write logs to a file on the local filesystem or to a Slack channel, depending on the environment the application is running in.
+
+The logger is used to capture errors, API requests, database errors, login attempts, and more. By default, logs are written to a file in the logs directory. In production, logs are sent to a designated Slack channel for easy monitoring.
+
+To use the logger, simply import the Logger class from the logger module:
+
+```typescript
+import { Logger } from "../models/logger-model";
+const logger = new Logger();
+
+//The logger can then be used to write messages to the log file or to the Slack channel:
+logger.info("Server started.");
+logger.error("Unauthorized request detected.");
+```
+
+The logger class is highly customizable, and can be configured to meet the specific needs of your application. For more information on how to use the logger, please see the documentation in the logger-model.ts file.
+
 ## API Endpoints
 
 My Utilities includes several API endpoints that allow you to manage your utility usage. Some of these endpoints are restricted and require authentication. To access these endpoints, you must have a user account and obtain a JSON Web Token (JWT).

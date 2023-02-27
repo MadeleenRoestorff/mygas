@@ -22,23 +22,23 @@ type LogWriter = {
 //   }
 // };
 
-// Write to txt files -- for development
+/* A type definition for the LogWriter interface - Write to .log files -- for development */
 const FileLogWriter: LogWriter = {
   info(txt: string): void {
     fs.appendFileSync(
-      path.resolve(process.cwd(), "logs/info.txt"),
+      path.resolve(process.cwd(), "logs/info.log"),
       `${txt} \n`
     );
   },
   debug(txt: string): void {
     fs.appendFileSync(
-      path.resolve(process.cwd(), "logs/debug.txt"),
+      path.resolve(process.cwd(), "logs/debug.log"),
       `${txt} \n`
     );
   },
   error(txt: string): void {
     fs.appendFileSync(
-      path.resolve(process.cwd(), "logs/error.txt"),
+      path.resolve(process.cwd(), "logs/error.log"),
       `${txt} \n`
     );
   }
@@ -46,7 +46,7 @@ const FileLogWriter: LogWriter = {
 
 const url = process.env.SLACKURL || "";
 
-// Write to slack -- for production
+/* A type definition for the LogWriter interface - Write to slack -- for production */
 const SlackLogWriter: LogWriter = {
   info(txt: string): void {
     axios.post(url, JSON.stringify({ text: txt }));
@@ -59,6 +59,10 @@ const SlackLogWriter: LogWriter = {
   }
 };
 
+// "The Logger class writes log messages to a log writer, which is either a SlackLogWriter, a
+// FileLogWriter, or a ConsoleLogWriter, depending on the value of the NODE_ENV environment variable."
+// The Logger class has three public methods: info, debug, and error. Each of these methods calls the
+// private method logMessage, which in turn calls the info, debug, or error method of the log writer
 class Logger {
   // Assume production
   #logWriter = SlackLogWriter;
