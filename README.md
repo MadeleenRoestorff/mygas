@@ -1,6 +1,6 @@
 # My Utilities Backend
 
-![Coverage Badges](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/MadeleenRoestorff/e3835b95ac826635d78b5d047b92b16a/raw/c238dd7b1952b49e0d8d3f8c774d338b30a4f9b0/mygas_heads_main.json)
+![Coverage Badges](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/MadeleenRoestorff/e3835b95ac826635d78b5d047b92b16a/raw/mygas_heads_main.json)
 [![ESLinter Badges](https://img.shields.io/badge/Linter-ESlint-4B32C3?logo=ESLint)](https://eslint.org/docs/latest/rules/)
 [![Prettier Badges](https://img.shields.io/badge/Formater-Prettier-F7B93E?logo=Prettier)](https://prettier.io/docs/en/precommit.html)
 [![license](https://img.shields.io/badge/License-MIT-F0047F.svg)](LICENSE)
