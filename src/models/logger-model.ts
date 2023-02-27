@@ -10,34 +10,49 @@ type LogWriter = {
 };
 
 // Write to console (terminal) -- for tests
-// const ConsoleLogWriter: LogWriter = {
-//   info(txt: string): void {
-//     console.log(txt);
-//   },
-//   debug(txt: string): void {
-//     console.warn(txt);
-//   },
-//   error(txt: string): void {
-//     console.error(txt);
-//   }
-// };
-
-// Write to txt files -- for development
-const FileLogWriter: LogWriter = {
+const ConsoleLogWriter: LogWriter = {
   info(txt: string): void {
-    fs.appendFileSync(path.resolve(process.cwd(), "logs/info.txt"), `${txt} \n`);
+    fs.appendFileSync(
+      path.resolve(process.cwd(), "logs/infotest.log"),
+      `${txt} \n`
+    );
   },
   debug(txt: string): void {
-    fs.appendFileSync(path.resolve(process.cwd(), "logs/debug.txt"), `${txt} \n`);
+    console.warn(txt);
   },
   error(txt: string): void {
-    fs.appendFileSync(path.resolve(process.cwd(), "logs/error.txt"), `${txt} \n`);
+    fs.appendFileSync(
+      path.resolve(process.cwd(), "logs/errortest.log"),
+      `${txt} \n`
+    );
+  }
+};
+
+// A type definition for the LogWriter interface - Write to .log files -- for development
+const FileLogWriter: LogWriter = {
+  info(txt: string): void {
+    fs.appendFileSync(
+      path.resolve(process.cwd(), "logs/info.log"),
+      `${txt} \n`
+    );
+  },
+  debug(txt: string): void {
+    fs.appendFileSync(
+      path.resolve(process.cwd(), "logs/debug.log"),
+      `${txt} \n`
+    );
+  },
+  error(txt: string): void {
+    fs.appendFileSync(
+      path.resolve(process.cwd(), "logs/error.log"),
+      `${txt} \n`
+    );
   }
 };
 
 const url = process.env.SLACKURL || "";
 
-// Write to slack -- for production
+// A type definition for the LogWriter interface - Write to slack -- for production
 const SlackLogWriter: LogWriter = {
   info(txt: string): void {
     axios.post(url, JSON.stringify({ text: txt }));
@@ -46,10 +61,14 @@ const SlackLogWriter: LogWriter = {
     // do nothing
   },
   error(txt: string): void {
-    axios.post(url, txt);
+    axios.post(url, JSON.stringify({ text: txt }));
   }
 };
 
+// "The Logger class writes log messages to a log writer, which is either a SlackLogWriter, a
+// FileLogWriter, or a ConsoleLogWriter, depending on the value of the NODE_ENV environment variable."
+// The Logger class has three public methods: info, debug, and error. Each of these methods calls the
+// private method logMessage, which in turn calls the info, debug, or error method of the log writer
 class Logger {
   // Assume production
   #logWriter = SlackLogWriter;
@@ -58,8 +77,9 @@ class Logger {
     if (process.env.NODE_ENV === "dev") {
       this.#logWriter = FileLogWriter;
     } else if (process.env.NODE_ENV === "test") {
-      //   this.#logWriter = ConsoleLogWriter;
-      this.#logWriter = FileLogWriter;
+      this.#logWriter = ConsoleLogWriter;
+    } else {
+      this.#logWriter = SlackLogWriter;
     }
   }
 
@@ -74,13 +94,18 @@ class Logger {
   }
 
   #logMessage(level: string, message: string): void {
-    const timestamp = new Date().toISOString();
-    this.#logWriter.info(`${level} [${timestamp}]: ${message}`);
-    if (level === "DEBUG") {
-      this.#logWriter.debug(`[${timestamp}]: ${message}`);
-    }
-    if (level === "ERROR") {
-      this.#logWriter.error(`[${timestamp}]: ${message}`);
+    const timestamp = new Date().toUTCString();
+
+    try {
+      this.#logWriter.info(`${level} [${timestamp}]: ${message}`);
+      if (level === "DEBUG") {
+        this.#logWriter.debug(`[${timestamp}]: ${message}`);
+      }
+      if (level === "ERROR") {
+        this.#logWriter.error(`[${timestamp}]: ${message}`);
+      }
+    } catch (error) {
+      console.error(error);
     }
   }
 }

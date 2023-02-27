@@ -50,3 +50,5 @@ test.db
 
 #jest
 # .jest/
+
+.vscode/
