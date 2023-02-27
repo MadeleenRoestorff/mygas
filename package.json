@@ -1,8 +1,14 @@
 {
-    "name": "mygas-ts",
+    "name": "my-utilities-backend",
     "version": "1.0.0",
-    "description": "",
+    "description": "The backend for a web application designed to help you track your utility usage",
     "main": "app.ts",
+    "keywords": [
+        "utilities",
+        "express"
+    ],
+    "author": "Madeleen Roestorff",
+    "license": "MIT",
     "scripts": {
         "start": "node dist/src/app.js",
         "dev": "NODE_ENV=dev nodemon src/app.ts",
@@ -13,9 +19,6 @@
         "prepare": "husky install",
         "validate": "scripts/validate.sh"
     },
-    "keywords": [],
-    "author": "",
-    "license": "MIT",
     "devDependencies": {
         "@jest/globals": "^29.3.1",
         "@types/cors": "^2.8.13",

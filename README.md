@@ -1,4 +1,4 @@
-# My Utilities
+# My Utilities Backend
 
 ![Coverage Badges](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/MadeleenRoestorff/e3835b95ac826635d78b5d047b92b16a/raw/c238dd7b1952b49e0d8d3f8c774d338b30a4f9b0/mygas_heads_main.json)
 [![ESLinter Badges](https://img.shields.io/badge/Linter-ESlint-4B32C3?logo=ESLint)](https://eslint.org/docs/latest/rules/)
@@ -6,7 +6,7 @@
 [![license](https://img.shields.io/badge/License-MIT-F0047F.svg)](LICENSE)
 [![GitHub Workflow Status (with branch)](https://img.shields.io/github/actions/workflow/status/MadeleenRoestorff/mygas/validate-test-script.yml)](https://github.com/MadeleenRoestorff/mygas/actions)
 
-This repository contains the server-side code for My Utilities, a simple web app that helps you keep track of your utilities. The frontend code is located in a separate repository. The backend is built with ExpressJS and written in TypeScript, and uses the Sequelize ORM to map to a SQLite database. ExpressJS is used for creating the API endpoints. Jest is used for testing, and ESLint and Prettier are used for formatting.
+This repository contains the server-side code for My Utilities, a web application that helps you keep track of your utilities. The frontend code is located in a separate repository. The backend is built with ExpressJS and written in TypeScript, and uses the Sequelize ORM to map to a SQLite database. ExpressJS is used for creating the API endpoints. Jest is used for testing, and ESLint and Prettier are used for formatting and consistency.
 
 ## Installation
 
@@ -26,7 +26,7 @@ To run the app during development, use the following command:
 npm run dev
 ```
 
-This will compile the TypeScript code to JavaScript and start the server on http://localhost:3000 using nodemon.
+This will compile the TypeScript code to JavaScript and start the server on http://localhost:8000 using nodemon.
 
 If you prefer to run the distributed JavaScript code directly, use the following command:
 
@@ -89,16 +89,16 @@ The scripts and documentation in this project are released under the [MIT Licens
 
 ## Tech Stack
 
-- Node.js
-- TypeScript
-- ExpressJS
-- SQLite3
-- Sequelize ORM
-- Jest with supertest
-- ESLint
-- Prettier
-- nodemon
-- Husky
+- [Node.js](https://nodejs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [ExpressJS](https://expressjs.com/)
+- [SQLite3](https://www.sqlite.org/index.html)
+- [Sequelize](https://sequelize.org/)
+- [Jest](https://jestjs.io/) with supertest
+- [ESLint](https://eslint.org/)
+- [Prettier](https://prettier.io/)
+- [nodemon](https://nodemon.io/)
+- [Husky](https://typicode.github.io/husky/)
 
 ### Notes
 
@@ -108,5 +108,5 @@ Run npm test to ensure that your changes pass all tests.
 
 ## Acknowledgements
 
-- ChatGPT for helping me write this readme.
+- [OpenAI](https://openai.com/) for providing the ChatGPT model used to generate this README.
 - [Mintlify](https://marketplace.visualstudio.com/items?itemname=mintlify.document) for helping me write code comments.
