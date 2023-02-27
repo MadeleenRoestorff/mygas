@@ -10,19 +10,25 @@ type LogWriter = {
 };
 
 // Write to console (terminal) -- for tests
-// const ConsoleLogWriter: LogWriter = {
-//   info(txt: string): void {
-//     console.log(txt);
-//   },
-//   debug(txt: string): void {
-//     console.warn(txt);
-//   },
-//   error(txt: string): void {
-//     console.error(txt);
-//   }
-// };
+const ConsoleLogWriter: LogWriter = {
+  info(txt: string): void {
+    fs.appendFileSync(
+      path.resolve(process.cwd(), "logs/infotest.log"),
+      `${txt} \n`
+    );
+  },
+  debug(txt: string): void {
+    console.warn(txt);
+  },
+  error(txt: string): void {
+    fs.appendFileSync(
+      path.resolve(process.cwd(), "logs/errortest.log"),
+      `${txt} \n`
+    );
+  }
+};
 
-/* A type definition for the LogWriter interface - Write to .log files -- for development */
+// A type definition for the LogWriter interface - Write to .log files -- for development
 const FileLogWriter: LogWriter = {
   info(txt: string): void {
     fs.appendFileSync(
@@ -46,7 +52,7 @@ const FileLogWriter: LogWriter = {
 
 const url = process.env.SLACKURL || "";
 
-/* A type definition for the LogWriter interface - Write to slack -- for production */
+// A type definition for the LogWriter interface - Write to slack -- for production
 const SlackLogWriter: LogWriter = {
   info(txt: string): void {
     axios.post(url, JSON.stringify({ text: txt }));
@@ -55,7 +61,7 @@ const SlackLogWriter: LogWriter = {
     // do nothing
   },
   error(txt: string): void {
-    axios.post(url, txt);
+    axios.post(url, JSON.stringify({ text: txt }));
   }
 };
 
@@ -71,8 +77,9 @@ class Logger {
     if (process.env.NODE_ENV === "dev") {
       this.#logWriter = FileLogWriter;
     } else if (process.env.NODE_ENV === "test") {
-      //   this.#logWriter = ConsoleLogWriter;
-      this.#logWriter = FileLogWriter;
+      this.#logWriter = ConsoleLogWriter;
+    } else {
+      this.#logWriter = SlackLogWriter;
     }
   }
 
@@ -87,13 +94,18 @@ class Logger {
   }
 
   #logMessage(level: string, message: string): void {
-    const timestamp = new Date().toISOString();
-    this.#logWriter.info(`${level} [${timestamp}]: ${message}`);
-    if (level === "DEBUG") {
-      this.#logWriter.debug(`[${timestamp}]: ${message}`);
-    }
-    if (level === "ERROR") {
-      this.#logWriter.error(`[${timestamp}]: ${message}`);
+    const timestamp = new Date().toUTCString();
+
+    try {
+      this.#logWriter.info(`${level} [${timestamp}]: ${message}`);
+      if (level === "DEBUG") {
+        this.#logWriter.debug(`[${timestamp}]: ${message}`);
+      }
+      if (level === "ERROR") {
+        this.#logWriter.error(`[${timestamp}]: ${message}`);
+      }
+    } catch (error) {
+      console.error(error);
     }
   }
 }

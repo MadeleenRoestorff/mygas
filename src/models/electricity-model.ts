@@ -16,7 +16,7 @@ const logger = new Logger();
 const sequelize = new Sequelize({
   dialect: "sqlite",
   storage: dataBase,
-  logging: (msg: string) => logger.error(msg)
+  logging: (msg: string) => logger.info(msg)
 });
 
 class Electricity extends Model<

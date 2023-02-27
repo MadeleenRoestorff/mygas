@@ -18,6 +18,7 @@ export const logEndpointsApiRequest = (
   res: Response,
   next: NextFunction
 ) => {
+  // Consider only logging when it is a post or patch http request
   logger.info(
     `REQ: ${JSON.stringify(req.body)}, Type: ${req.method}, URL: ${
       req.originalUrl
@@ -25,8 +26,12 @@ export const logEndpointsApiRequest = (
   );
   // Intercept response log it and then send it
   const response = res.send;
-  res.send = (sendResponse) => {
-    logger.info(`RES: ${sendResponse} ${res.statusCode}`);
+  res.send = (sendResponse: string) => {
+    const regexPattern =
+      /"uuid"+[^"]+"+[^"]+",*|"createdAt"\s*:\s*"[^"]+",*|"updatedAt"\s*:\s*"[^"]+",*|.\d\d\dZ/g;
+    logger.info(
+      `RES: ${sendResponse.replace(regexPattern, "")} ${res.statusCode}`
+    );
     res.send = response;
     return res.send(sendResponse);
   };
