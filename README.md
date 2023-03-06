@@ -76,29 +76,29 @@ Once you have obtained a JWT, you can use it to access the restricted utility us
 | `/gas`             | `GET`       | -                                          | Array of Gas Record Objects             | Retrieves all gas records                   |
 | `/gas`             | `POST`      | units, topup, measuredAt                   | The new Gas Record Object               | Adds a new gas record                       |
 | `/gas/:id`         | `GET`       | id (in URL path)                           | The requested Gas Record Object         | Retrieves a single gas record by ID         |
-| `/gas/:id`         | `PUT`       | units, topup, measuredAt, id (in URL path) | The updated Gas Record Object           | Updates a single gas record by ID           |
+| `/gas/:id`         | `PATCH`     | units, topup, measuredAt, id (in URL path) | The updated Gas Record Object           | Updates a single gas record by ID           |
 | `/electricity`     | `GET`       | -                                          | Array of Electricity Record Objects     | Retrieves all electricity records           |
 | `/electricity`     | `POST`      | electricity, measuredAt                    | The new Electricity Record Object       | Adds a new electricity record               |
 | `/electricity/:id` | `GET`       | id (in URL path)                           | The requested Electricity Record Object | Retrieves a single electricity record by ID |
-| `/electricity/:id` | `PUT`       | electricity, measuredAt, id (in URL path)  | The updated Electricity Record Object   | Updates a single electricity record by ID   |
+| `/electricity/:id` | `PATCH`     | electricity, measuredAt, id (in URL path)  | The updated Electricity Record Object   | Updates a single electricity record by ID   |
 
 ### Request and Response parameters definitions
 
-| Parameter     | Type          | Required                | Description                                                                         |
-| :------------ | :------------ | :---------------------- | :---------------------------------------------------------------------------------- |
-| `username`    | `string`      | Yes                     | The username of the user                                                            |
-| `password`    | `string`      | Yes                     | The password of the user                                                            |
-| `token`       | `string`      | -                       | The authentication token                                                            |
-| `id`          | `number`      | Yes for `PUT` or `:/id` | This ID refers to GasLogID or ElecLogID of the utility that is requested or updated |
-| `units`       | `number`      | `units` or `topup`      | The gas units that are left on the gas meter                                        |
-| `topup`       | `number`      | `topup` or `units`      | The cost of the newly added gas units                                               |
-| `measuredAt`  | `Date string` | Optional                | If the measurements were taken at a earlier date, provide measurement date          |
-| `GasLogID`    | `number`      | -                       | The ID of the Gas record                                                            |
-| `createdAt`   | `Date`        | -                       | The date when the record was created in the database                                |
-| `updatedAt`   | `Date`        | -                       | The date when the record was updated in the database                                |
-| `uuid`        | `string`      | -                       | The unique identifier for record                                                    |
-| `electricity` | `number`      | Yes                     | The electricity meter reading                                                       |
-| `ElecLogID`   | `number`      | -                       | The ID of the Electricity record                                                    |
+| Parameter     | Type          | Required                  | Description                                                                         |
+| :------------ | :------------ | :------------------------ | :---------------------------------------------------------------------------------- |
+| `username`    | `string`      | Yes                       | The username of the user                                                            |
+| `password`    | `string`      | Yes                       | The password of the user                                                            |
+| `token`       | `string`      | -                         | The authentication token                                                            |
+| `id`          | `number`      | Yes for `PATCH` or `:/id` | This ID refers to GasLogID or ElecLogID of the utility that is requested or updated |
+| `units`       | `number`      | `units` or `topup`        | The gas units that are left on the gas meter                                        |
+| `topup`       | `number`      | `topup` or `units`        | The cost of the newly added gas units                                               |
+| `measuredAt`  | `Date string` | Optional                  | If the measurements were taken at a earlier date, provide measurement date          |
+| `GasLogID`    | `number`      | -                         | The ID of the Gas record                                                            |
+| `createdAt`   | `Date`        | -                         | The date when the record was created in the database                                |
+| `updatedAt`   | `Date`        | -                         | The date when the record was updated in the database                                |
+| `uuid`        | `string`      | -                         | The unique identifier for record                                                    |
+| `electricity` | `number`      | Yes                       | The electricity meter reading                                                       |
+| `ElecLogID`   | `number`      | -                         | The ID of the Electricity record                                                    |
 
 Note: The GasLogID, ElecLogID, uuid, createdAt, and updatedAt parameters are automatically generated by the Sequelize ORM and do not need to be provided in the request.
 

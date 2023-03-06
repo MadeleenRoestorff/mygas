@@ -94,7 +94,7 @@ describe("Tests for endpoint api", () => {
   it("SUCCESS: Test Update Gas with only UNITS", async () => {
     const UNITS = 777;
     await request(app)
-      .put(`/gas/${gasID}`)
+      .patch(`/gas/${gasID}`)
       .set("Authorization", `Bearer ${token}`)
       .send({ units: UNITS })
       .expect(StatusCodes.OK)
@@ -106,7 +106,7 @@ describe("Tests for endpoint api", () => {
   it("SUCCESS: Test Update Gas with only TOPUP", async () => {
     const TOPUP = 50;
     await request(app)
-      .put(`/gas/${gasID}`)
+      .patch(`/gas/${gasID}`)
       .set("Authorization", `Bearer ${token}`)
       .send({ topup: TOPUP })
       .expect(StatusCodes.OK)
@@ -118,7 +118,7 @@ describe("Tests for endpoint api", () => {
   it("SUCCESS: Test Update Gas with only MEASUREDAT", async () => {
     const MEASUREDAT = new Date().toISOString();
     await request(app)
-      .put(`/gas/${gasID}`)
+      .patch(`/gas/${gasID}`)
       .set("Authorization", `Bearer ${token}`)
       .send({ measuredAt: MEASUREDAT })
       .expect(StatusCodes.OK)
@@ -130,7 +130,7 @@ describe("Tests for endpoint api", () => {
   it("FAILURE: Test Update Gas with incorrect ID", async () => {
     const UNITS = 999;
     await request(app)
-      .put("/gas/999")
+      .patch("/gas/999")
       .set("Authorization", `Bearer ${token}`)
       .send({ units: UNITS })
       .expect(StatusCodes.NOT_ACCEPTABLE);
@@ -139,7 +139,7 @@ describe("Tests for endpoint api", () => {
   it("FAILURE: Test Update Gas with incorrect body request", async () => {
     const UNITS = 777;
     await request(app)
-      .put(`/gas/${gasID}`)
+      .patch(`/gas/${gasID}`)
       .set("Authorization", `Bearer ${token}`)
       .send({ unit: UNITS })
       .expect(StatusCodes.NOT_ACCEPTABLE);
@@ -147,7 +147,7 @@ describe("Tests for endpoint api", () => {
 
   it("FAILURE: Test Update Gas with no body request", async () => {
     await request(app)
-      .put(`/gas/${gasID}`)
+      .patch(`/gas/${gasID}`)
       .set("Authorization", `Bearer ${token}`)
       .expect(StatusCodes.NOT_ACCEPTABLE);
   });

@@ -56,13 +56,13 @@ router.post("/", bodyCheck, (req: Request, res: Response) => {
   methodRunner(res, () => Electricity.create(req.body));
 });
 
-// This is a route that will be called when the client makes a PUT request to the server with a URL
+// This is a route that will be called when the client makes a PATCH request to the server with a URL
 // that matches the pattern "/electricity:id(\d+)". The ":id" part of the URL is a parameter that will
 // be passed to the function as req.params.id. The "\d+" part of the URL is a regular expression that will
 // be used to validate the parameter. The function will call the methodRunner function with the response
 // object and a function that will return the Electricity instance with the ID that matches the
 // parameter.
-router.put("/:id(\\d+)", bodyCheck, async (req: Request, res: Response) => {
+router.patch("/:id(\\d+)", bodyCheck, async (req: Request, res: Response) => {
   try {
     const updateResult = await Electricity.update(req.body, {
       where: {

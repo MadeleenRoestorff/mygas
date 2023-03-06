@@ -14,19 +14,19 @@ interface GasInterface {
 }
 
 const gasData: GasInterface[] = [
-  { units: 66, topup: 0, date: "2022-07-17T12:00" },
-  { units: 65, topup: 0, date: "2022-07-24T12:00" },
-  { units: 64, topup: 0, date: "2022-07-31T12:00" },
-  { units: 63, topup: 0, date: "2022-08-07T12:00" },
-  { units: 63, topup: 0, date: "2022-08-14T12:00" },
-  { units: 62, topup: 0, date: "2022-08-21T12:00" },
-  { units: 60, topup: 0, date: "2022-08-28T12:00" },
-  { units: 59, topup: 0, date: "2022-09-04T12:00" },
-  { units: 57, topup: 0, date: "2022-09-11T12:00" },
-  { units: 96, topup: 49, date: "2022-09-19T12:00" },
-  { units: 92, topup: 0, date: "2022-10-16T12:00" },
-  { units: 89, topup: 0, date: "2022-10-23T12:00" },
-  { units: 88, topup: 0, date: "2022-10-30T12:00" }
+  { units: 66, topup: 0, date: "2022-07-17" },
+  { units: 65, topup: 0, date: "2022-07-24" },
+  { units: 64, topup: 0, date: "2022-07-31" },
+  { units: 63, topup: 0, date: "2022-08-07" },
+  { units: 63, topup: 0, date: "2022-08-14" },
+  { units: 62, topup: 0, date: "2022-08-21" },
+  { units: 60, topup: 0, date: "2022-08-28" },
+  { units: 59, topup: 0, date: "2022-09-04" },
+  { units: 57, topup: 0, date: "2022-09-11" },
+  { units: 96, topup: 49, date: "2022-09-19" },
+  { units: 92, topup: 0, date: "2022-10-16" },
+  { units: 89, topup: 0, date: "2022-10-23" },
+  { units: 88, topup: 0, date: "2022-10-30" }
 ];
 
 /**

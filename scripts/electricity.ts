@@ -8,13 +8,13 @@ import Electricity from "../src/models/electricity-model";
  * generator that yields an Electricity model instance for each object in the array
  */
 const elecData: ElectricityInterface[] = [
-  { elec: 77738, date: "2022-09-07T12:00" },
-  { elec: 77831, date: "2022-09-12T12:00" },
-  { elec: 78015, date: "2022-10-04T12:00" },
-  { elec: 78706, date: "2022-12-03T12:00" },
-  { elec: 78855, date: "2022-12-14T12:00" },
-  { elec: 79127, date: "2023-01-04T12:00" },
-  { elec: 79510, date: "2023-02-04T12:00" }
+  { elec: 77738, date: "2022-09-07" },
+  { elec: 77831, date: "2022-09-12" },
+  { elec: 78015, date: "2022-10-04" },
+  { elec: 78706, date: "2022-12-03" },
+  { elec: 78855, date: "2022-12-14" },
+  { elec: 79127, date: "2023-01-04" },
+  { elec: 79510, date: "2023-02-04" }
 ];
 
 interface ElectricityInterface {

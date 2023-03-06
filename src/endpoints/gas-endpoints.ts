@@ -51,7 +51,7 @@ router.post("/", bodyCheck, (req: Request, res: Response) => {
 });
 
 /* A route that is used to update a gas instance. */
-router.put("/:id(\\d+)", bodyCheck, async (req: Request, res: Response) => {
+router.patch("/:id(\\d+)", bodyCheck, async (req: Request, res: Response) => {
   try {
     const updateResult = await Gas.update(req.body, {
       where: {

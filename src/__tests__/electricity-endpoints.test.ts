@@ -83,7 +83,7 @@ describe("Tests for endpoint api", () => {
   it("SUCCESS: Test Update Electricity with only ELEC", async () => {
     const ELEC = 777;
     await request(app)
-      .put(`/electricity/${elecID}`)
+      .patch(`/electricity/${elecID}`)
       .set("Authorization", `Bearer ${token}`)
       .send({ electricity: ELEC })
       .expect(StatusCodes.OK)
@@ -95,7 +95,7 @@ describe("Tests for endpoint api", () => {
   it("SUCCESS: Test Update Electricity with only MEASUREDAT", async () => {
     const MEASUREDAT = new Date().toISOString();
     await request(app)
-      .put(`/electricity/${elecID}`)
+      .patch(`/electricity/${elecID}`)
       .set("Authorization", `Bearer ${token}`)
       .send({ measuredAt: MEASUREDAT })
       .expect(StatusCodes.OK)
@@ -107,7 +107,7 @@ describe("Tests for endpoint api", () => {
   it("FAILURE: Test Update Electricity with incorrect ID", async () => {
     const ELEC = 777;
     await request(app)
-      .put("/electricity/999")
+      .patch("/electricity/999")
       .set("Authorization", `Bearer ${token}`)
       .send({ electricity: ELEC })
       .expect(StatusCodes.NOT_ACCEPTABLE);
@@ -116,7 +116,7 @@ describe("Tests for endpoint api", () => {
   it("FAILURE: Test Update Electricity with incorrect body request", async () => {
     const ELEC = 777;
     await request(app)
-      .put(`/electricity/${elecID}`)
+      .patch(`/electricity/${elecID}`)
       .set("Authorization", `Bearer ${token}`)
       .send({ electric: ELEC })
       .expect(StatusCodes.NOT_ACCEPTABLE);
@@ -124,7 +124,7 @@ describe("Tests for endpoint api", () => {
 
   it("FAILURE: Test Update Electricity with no body request", async () => {
     await request(app)
-      .put(`/electricity/${elecID}`)
+      .patch(`/electricity/${elecID}`)
       .set("Authorization", `Bearer ${token}`)
       .expect(StatusCodes.NOT_ACCEPTABLE);
   });
