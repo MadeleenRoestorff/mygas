@@ -44,7 +44,9 @@ router.get("/:id(\\d+)", (req: Request, res: Response) => {
 // that matches the pattern "/electricity". The function will call the methodRunner function with the
 // response object and a function that will return all the Electricity instances.
 router.get("/", (req: Request, res: Response) => {
-  methodRunner(res, () => Electricity.findAll());
+  methodRunner(res, () => {
+    return Electricity.findAll({ order: [["measuredAt", "DESC"]] });
+  });
 });
 
 // A route that will be called when the client makes a POST request to the server with a URL

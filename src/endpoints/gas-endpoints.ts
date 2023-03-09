@@ -39,7 +39,7 @@ router.get("/:id(\\d+)", (req: Request, res: Response) => {
 
 /* This is a route that is used to get all gas instances. */
 router.get("/", (req: Request, res: Response) => {
-  methodRunner(res, () => Gas.findAll());
+  methodRunner(res, () => Gas.findAll({ order: [["measuredAt", "DESC"]] }));
 });
 
 /* A post request that is used to create a new gas instance. */
